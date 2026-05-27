@@ -1,0 +1,2636 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRI Ivrea &ndash; Esame Allegato A</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+/* ── Reset & root ───────────────────────────────────────── */
+:root{
+  --red:#CC0000; --red-dark:#990000; --red-glow:rgba(204,0,0,.18);
+  --white:#f5f2ee; --black:#080808; --grey:#181818; --grey-mid:#242424;
+  --border:#2c2c2c; --accent:#FFD700; --accent-dim:rgba(255,215,0,.15);
+  --green:#2e7d32; --card-bg:#111111;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;background:var(--black);color:var(--white);font-family:'IBM Plex Sans',sans-serif;}
+body{display:flex;flex-direction:column;}
+
+/* ── HEADER PRINCIPALE ──────────────────────────────────── */
+.m-header{
+  background:linear-gradient(135deg,#a80000 0%,var(--red) 55%,#dd1111 100%);
+  flex-shrink:0; position:relative; overflow:hidden;
+}
+.m-header::after{
+  content:'';position:absolute;top:0;right:0;
+  width:260px;height:100%;
+  background:linear-gradient(135deg,transparent 30%,rgba(0,0,0,.18));
+  pointer-events:none;
+}
+.m-header-inner{display:flex;align-items:center;gap:14px;padding:11px 22px 7px;}
+
+/* Logo CRI */
+.m-logo{
+  width:48px;height:48px;border-radius:50%;
+  background:white;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  box-shadow:0 2px 8px rgba(0,0,0,.3);
+  overflow:hidden;
+}
+.m-logo svg{width:38px;height:38px;}
+
+.m-header-text{}
+.m-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(16px,3.2vw,26px);
+  letter-spacing:2.5px;color:white;line-height:1.05;
+}
+.m-subtitle{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9.5px;color:rgba(255,255,255,.72);
+  letter-spacing:1.8px;text-transform:uppercase;margin-top:3px;
+}
+
+/* ── TAB BAR ────────────────────────────────────────────── */
+.m-tabs{
+  display:flex;
+  background:rgba(0,0,0,.28);
+  border-top:1px solid rgba(255,255,255,.08);
+  padding:0 18px;
+  gap:2px;
+}
+.m-tab{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:14px;letter-spacing:2px;
+  padding:9px 24px 7px;
+  border:none;background:transparent;
+  color:rgba(255,255,255,.55);
+  cursor:pointer;
+  border-bottom:3px solid transparent;
+  transition:color .2s,border-color .2s,background .2s;
+  position:relative;
+}
+.m-tab:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.06);}
+.m-tab.active{
+  color:#fff;
+  border-bottom-color:var(--accent);
+  background:rgba(255,255,255,.1);
+}
+.m-tab .tab-icon{margin-right:6px;font-size:13px;}
+
+/* ── BODY / PANES ───────────────────────────────────────── */
+.m-body{flex:1;overflow:hidden;display:flex;flex-direction:column;min-height:0;}
+.m-pane{display:none;flex:1;overflow:hidden;flex-direction:column;min-height:0;}
+.m-pane.active{display:flex;}
+
+/* ── SUB-TAB BAR (Pratica) ──────────────────────────────── */
+.s-tabs{
+  display:flex;gap:6px;
+  padding:9px 18px;
+  background:var(--grey);
+  border-bottom:1px solid var(--border);
+  flex-shrink:0;
+  align-items:center;
+}
+.s-tabs-label{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;text-transform:uppercase;letter-spacing:1.5px;
+  color:#444;margin-right:6px;
+}
+.s-tab{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10.5px;font-weight:600;letter-spacing:.8px;
+  padding:5px 14px;
+  border:1.5px solid var(--border);
+  background:transparent;color:#666;
+  cursor:pointer;text-transform:uppercase;
+  transition:all .18s;border-radius:3px;
+  display:flex;align-items:center;gap:5px;
+}
+.s-tab:hover{border-color:#555;color:var(--white);}
+.s-tab.active{
+  background:var(--red);border-color:var(--red);
+  color:white;box-shadow:0 1px 6px rgba(204,0,0,.4);
+}
+.s-tab .s-icon{font-size:12px;}
+
+/* ── SUB PANES ──────────────────────────────────────────── */
+.s-pane{display:none;flex:1;overflow:hidden;min-height:0;}
+.s-pane.active{display:flex;flex-direction:column;}
+
+/* ── IFRAMES ────────────────────────────────────────────── */
+.app-iframe{width:100%;flex:1;border:none;display:block;min-height:0;}
+
+/* ── DOMANDE AL PAZIENTE ────────────────────────────────── */
+.dq-wrap{
+  flex:1;overflow-y:auto;padding:18px 20px 24px;
+  background:var(--black);
+  scrollbar-width:thin;scrollbar-color:var(--border) transparent;
+}
+.dq-note{
+  background:linear-gradient(90deg,#1a1300 0%,#141000 100%);
+  border-left:3px solid var(--accent);
+  border-radius:0 4px 4px 0;
+  padding:11px 15px;font-size:12px;color:#bbb;
+  font-family:'IBM Plex Mono',monospace;line-height:1.65;margin-bottom:18px;
+}
+.dq-note strong{color:var(--accent);}
+.dq-section{
+  background:var(--card-bg);
+  border:1px solid var(--border);
+  border-radius:5px;margin-bottom:14px;overflow:hidden;
+  box-shadow:0 1px 4px rgba(0,0,0,.4);
+}
+.dq-sec-header{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 15px;
+  background:#161616;
+  border-bottom:1px solid var(--border);
+}
+.dq-sec-num{
+  font-family:'Bebas Neue',sans-serif;font-size:21px;
+  color:var(--red);line-height:1;min-width:22px;
+}
+.dq-sec-title{
+  font-family:'IBM Plex Mono',monospace;font-size:11.5px;
+  font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--white);
+}
+.dq-sec-sub{
+  font-family:'IBM Plex Mono',monospace;font-size:9.5px;
+  color:#555;text-transform:uppercase;letter-spacing:.8px;margin-left:auto;
+}
+.dq-list{padding:8px 15px;}
+.dq-item{
+  display:flex;gap:10px;padding:6px 0;
+  border-bottom:1px solid #161616;
+  font-size:12.5px;line-height:1.5;color:var(--white);
+}
+.dq-item:last-child{border-bottom:none;}
+.dq-n{
+  font-family:'Bebas Neue',sans-serif;font-size:14px;
+  color:var(--red);min-width:26px;flex-shrink:0;line-height:1.45;
+}
+.dq-t{flex:1;}
+.dq-emph{
+  display:block;font-size:10.5px;color:var(--accent);
+  font-family:'IBM Plex Mono',monospace;margin-top:2px;
+  opacity:.9;
+}
+/* AMPLE */
+.dq-ample-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+  gap:9px;padding:11px 15px;
+}
+.dq-ample-card{
+  background:#141414;border:1px solid var(--border);
+  border-radius:4px;padding:11px 13px;
+}
+.dq-ample-letter{
+  font-family:'Bebas Neue',sans-serif;font-size:30px;
+  color:var(--red);line-height:1;margin-bottom:1px;
+}
+.dq-ample-label{
+  font-family:'IBM Plex Mono',monospace;font-size:8.5px;
+  text-transform:uppercase;letter-spacing:1.5px;
+  color:#555;margin-bottom:7px;
+}
+.dq-ample-q{font-size:11.5px;color:#ccc;line-height:1.5;margin-bottom:4px;}
+.dq-ample-q:last-child{margin-bottom:0;}
+/* Specifiche */
+.dq-specific-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+  gap:9px;padding:11px 15px;
+}
+.dq-spec-card{
+  background:#141414;border:1px solid var(--border);
+  border-left:3px solid var(--red);
+  border-radius:0 4px 4px 0;padding:9px 12px;
+}
+.dq-spec-tag{
+  font-family:'IBM Plex Mono',monospace;font-size:8.5px;
+  text-transform:uppercase;letter-spacing:1.5px;
+  color:var(--red);margin-bottom:7px;font-weight:600;
+}
+.dq-spec-card .dq-item{padding:4px 0;font-size:11.5px;}
+/* CO */
+.dq-section-co .dq-sec-header{border-bottom-color:var(--accent);}
+.dq-section-co .dq-sec-num{color:var(--accent);}
+.dq-co-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
+  gap:7px;padding:11px 15px;
+}
+.dq-co-item{
+  background:#141414;border:1px solid var(--border);
+  border-radius:3px;padding:9px 12px;
+  font-size:11.5px;color:#ccc;line-height:1.4;
+}
+
+/* ── FOOTER ─────────────────────────────────────────────── */
+.m-footer{
+  background:#0e0e0e;
+  border-top:1px solid var(--border);
+  padding:7px 22px;
+  display:flex;align-items:center;justify-content:center;gap:16px;
+  flex-shrink:0;flex-wrap:wrap;
+}
+.m-footer-text{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9.5px;color:#3a3a3a;
+  letter-spacing:.6px;text-align:center;line-height:1.7;
+}
+.m-footer-text strong{color:#555;}
+.m-footer-text .f-edu{color:#6b0000;font-weight:600;}
+.m-footer-divider{color:#2a2a2a;font-size:11px;}
+
+/* ── GLOBAL AUTH ───────────────────────────────────────── */
+.global-auth{
+  flex:1;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+}
+.global-auth.active{display:flex;}
+.global-auth-card{
+  width:min(460px,100%);
+  background:#111;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:24px 20px;
+  box-shadow:0 8px 28px rgba(0,0,0,.35);
+}
+.global-auth-title{
+  font-family:'Bebas Neue',sans-serif;
+  letter-spacing:1px;
+  color:var(--red);
+  font-size:30px;
+  margin-bottom:4px;
+}
+.global-auth-sub{font-size:13px;color:#b9b9b9;margin-bottom:14px;}
+.global-auth-input{
+  width:100%;
+  background:#0a0a0a;
+  color:var(--white);
+  border:2px solid var(--border);
+  border-radius:10px;
+  padding:11px 12px;
+  font-family:'IBM Plex Sans',sans-serif;
+  font-size:15px;
+}
+.global-auth-input:focus{outline:none;border-color:var(--red);}
+.global-auth-btn{
+  width:100%;
+  margin-top:10px;
+  background:var(--red);
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  padding:12px;
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer;
+  font-family:'IBM Plex Sans',sans-serif;
+}
+.global-auth-btn:hover{background:#a90000;}
+.global-auth-error{display:none;margin-top:10px;font-size:13px;color:#ff6b6b;}
+.global-auth-error.show{display:block;}
+.site-shell{display:none;flex-direction:column;flex:1;min-height:0;}
+.site-shell.active{display:flex;}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media(max-width:600px){
+  .m-tab{padding:8px 14px 6px;font-size:12px;letter-spacing:1.5px;}
+  .m-title{font-size:15px;}
+  .s-tabs-label{display:none;}
+  .dq-ample-grid,.dq-specific-grid,.dq-co-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div id="global-auth" class="global-auth active">
+  <div class="global-auth-card">
+    <div class="global-auth-title">Accesso sito</div>
+    <div class="global-auth-sub">Inserisci il PIN per accedere a tutte le sezioni.</div>
+    <input id="global-pin-input" class="global-auth-input" type="password" placeholder="PIN" autocomplete="off">
+    <button class="global-auth-btn" onclick="globalLogin()">Entra</button>
+    <div id="global-auth-error" class="global-auth-error">PIN non corretto.</div>
+  </div>
+</div>
+
+<div id="site-shell" class="site-shell">
+<!-- ════════ HEADER ════════ -->
+<div class="m-header">
+  <div class="m-header-inner">
+    <div class="m-logo">
+      <!-- Logo Croce Rossa Italiana -->
+      <svg viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
+        <rect x="13.5" y="3" width="11" height="32" rx="1.5" fill="#CC0000"/>
+        <rect x="3" y="13.5" width="32" height="11" rx="1.5" fill="#CC0000"/>
+      </svg>
+    </div>
+    <div class="m-header-text">
+      <div class="m-title">CRI Ivrea &ndash; Esame Allegato A</div>
+      <div class="m-subtitle">Trainer Integrato &middot; Standard Formativo Volontario Soccorritore 118</div>
+    </div>
+  </div>
+  <div class="m-tabs">
+    <button class="m-tab active" onclick="switchMain('pratica',this)">
+      <span class="tab-icon">&#9877;</span>Pratica
+    </button>
+    <button class="m-tab" onclick="switchMain('teorica',this)">
+      <span class="tab-icon">&#128203;</span>Teorica
+    </button>
+  </div>
+</div>
+
+<!-- ════════ BODY ════════ -->
+<div class="m-body">
+
+  <!-- ── PRATICA ── -->
+  <div id="pane-pratica" class="m-pane active">
+    <div class="s-tabs">
+      <span class="s-tabs-label">Sezione</span>
+      <button class="s-tab active" id="stab-procedure" onclick="switchSub('procedure',this)">
+        <span class="s-icon">&#128256;</span>Procedure di Movimentazione
+      </button>
+      <button class="s-tab" id="stab-domande" onclick="switchSub('domande',this)">
+        <span class="s-icon">&#128172;</span>Domande al Paziente
+      </button>
+    </div>
+    <div id="spane-procedure" class="s-pane active">
+      <iframe class="app-iframe" title="CRI Trainer Procedure di Movimentazione" srcdoc="<!DOCTYPE html>
+<html lang=&quot;it&quot;>
+<head>
+<meta charset=&quot;UTF-8&quot;>
+<meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+<title>CRI – Trainer Procedure di Movimentazione</title>
+<link href=&quot;https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=IBM+Plex+Mono:wght@400;600&amp;family=IBM+Plex+Sans:wght@300;400;600&amp;display=swap&quot; rel=&quot;stylesheet&quot;>
+<style>
+  :root {
+    --red: #CC0000;
+    --red-dark: #990000;
+    --red-light: #ff2222;
+    --white: #f5f2ee;
+    --black: #0a0a0a;
+    --grey: #1a1a1a;
+    --grey-mid: #2e2e2e;
+    --grey-light: #4a4a4a;
+    --accent: #FFD700;
+    --green: #2e7d32;
+    --green-light: #43a047;
+    --wrong: #b71c1c;
+    --card-bg: #141414;
+    --border: #333;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'IBM Plex Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--red);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 16px 28px;
+    position: relative;
+    z-index: 2;
+  }
+  .cri-badge {
+    background: white;
+    border-radius: 50%;
+    width: 52px; height: 52px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 22px;
+  }
+  .header-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(20px, 4vw, 32px);
+    letter-spacing: 2px;
+    color: white;
+    line-height: 1;
+  }
+  .header-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-top: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  header::before {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 200px; height: 100%;
+    background: linear-gradient(135deg, transparent 40%, rgba(0,0,0,0.2));
+  }
+
+  /* MAIN NAV */
+  .nav-bar {
+    display: flex;
+    gap: 4px;
+    padding: 12px 20px;
+    background: var(--grey);
+    border-bottom: 2px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .nav-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 7px 14px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    color: #888;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+  .nav-btn:hover { border-color: var(--red); color: var(--white); }
+  .nav-btn.active { background: var(--red); border-color: var(--red); color: white; }
+
+  /* CONTAINER */
+  .container { max-width: 900px; margin: 0 auto; padding: 24px 20px 60px; }
+
+  /* PROCEDURE SELECTOR */
+  .proc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .proc-card {
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .proc-card:hover { border-color: var(--red); transform: translateY(-2px); }
+  .proc-card.selected { border-color: var(--red); background: #1f0000; }
+  .proc-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--red);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .proc-card.selected::before, .proc-card:hover::before { opacity: 1; }
+  .proc-icon { font-size: 24px; margin-bottom: 8px; }
+  .proc-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.3;
+  }
+  .proc-count {
+    font-size: 10px;
+    color: #666;
+    margin-top: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .proc-done {
+    position: absolute; top: 8px; right: 8px;
+    background: var(--green);
+    color: white; font-size: 10px;
+    padding: 2px 6px; border-radius: 2px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* GAME AREA */
+  .game-area { display: none; }
+  .game-area.active { display: block; }
+
+  .game-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .game-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(18px, 3vw, 26px);
+    letter-spacing: 1.5px;
+    color: var(--white);
+  }
+  .game-title span { color: var(--red); }
+
+  .back-btn {
+    background: transparent;
+    border: 1.5px solid var(--border);
+    color: #888;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 6px 14px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+  .back-btn:hover { border-color: var(--red); color: var(--white); }
+
+  .instructions {
+    background: var(--grey);
+    border-left: 3px solid var(--accent);
+    padding: 12px 16px;
+    font-size: 12px;
+    color: #aaa;
+    margin-bottom: 20px;
+    font-family: 'IBM Plex Mono', monospace;
+    line-height: 1.6;
+    border-radius: 0 4px 4px 0;
+  }
+  .instructions strong { color: var(--accent); }
+
+  /* MODE TOGGLE */
+  .mode-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .mode-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 7px 16px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    color: #888;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+  .mode-btn.active { background: var(--accent); border-color: var(--accent); color: #000; }
+  .mode-btn:hover:not(.active) { border-color: var(--accent); color: var(--white); }
+
+  /* DRAG DROP AREA */
+  .drag-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 600px) {
+    .drag-container { grid-template-columns: 1fr; }
+  }
+
+  .drag-pool, .drag-target {
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    padding: 14px;
+    min-height: 300px;
+  }
+  .drag-pool-title, .drag-target-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .drag-pool-title { color: #888; }
+  .drag-target-title { color: var(--accent); }
+
+  .drag-item {
+    background: var(--grey);
+    border: 1.5px solid var(--border);
+    border-radius: 3px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    cursor: grab;
+    font-size: 12px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    line-height: 1.4;
+    color: var(--white);
+    transition: all 0.15s;
+    user-select: none;
+    position: relative;
+  }
+  .drag-item:active { cursor: grabbing; opacity: 0.7; }
+  .drag-item:hover { border-color: #555; background: #262626; }
+  .drag-item.dragging { opacity: 0.4; }
+  .drag-item.correct { border-color: var(--green-light); background: #0a2a0a; color: #81c784; }
+  .drag-item.wrong { border-color: var(--wrong); background: #2a0a0a; color: #ef9a9a; }
+  .drag-item.placeholder {
+    border-style: dashed;
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    color: var(--red);
+    margin-right: 8px;
+    min-width: 20px;
+    display: inline-block;
+  }
+
+  .drop-zone {
+    border: 2px dashed var(--border);
+    border-radius: 3px;
+    padding: 12px;
+    margin-bottom: 8px;
+    min-height: 46px;
+    font-size: 11px;
+    color: #444;
+    font-family: 'IBM Plex Mono', monospace;
+    display: flex;
+    align-items: center;
+    transition: all 0.15s;
+  }
+  .drop-zone.drag-over { border-color: var(--accent); background: rgba(255,215,0,0.05); color: #888; }
+  .drop-zone .step-label {
+    font-size: 10px;
+    color: #555;
+    margin-right: 8px;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 1px;
+  }
+
+  /* BUTTONS */
+  .action-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .btn-check, .btn-reset, .btn-reveal {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 10px 22px;
+    cursor: pointer;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+    border: none;
+  }
+  .btn-check { background: var(--red); color: white; }
+  .btn-check:hover { background: var(--red-light); }
+  .btn-reset { background: transparent; border: 1.5px solid var(--border); color: #888; }
+  .btn-reset:hover { border-color: var(--white); color: var(--white); }
+  .btn-reveal { background: transparent; border: 1.5px solid #444; color: #666; }
+  .btn-reveal:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* RESULT */
+  .result-panel {
+    background: var(--card-bg);
+    border-radius: 4px;
+    padding: 20px;
+    margin-top: 16px;
+    display: none;
+    border: 1.5px solid var(--border);
+  }
+  .result-panel.visible { display: block; }
+  .result-score {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+  }
+  .result-score.perfect { color: var(--green-light); }
+  .result-score.good { color: var(--accent); }
+  .result-score.bad { color: var(--wrong); }
+  .result-msg {
+    font-size: 13px;
+    color: #888;
+    font-family: 'IBM Plex Mono', monospace;
+    margin-bottom: 16px;
+  }
+  .error-list { list-style: none; }
+  .error-list li {
+    padding: 8px 12px;
+    margin-bottom: 6px;
+    background: #1a0000;
+    border-left: 3px solid var(--wrong);
+    font-size: 12px;
+    color: #ccc;
+    font-family: 'IBM Plex Sans', sans-serif;
+    line-height: 1.4;
+    border-radius: 0 2px 2px 0;
+  }
+  .error-list li strong { color: var(--wrong); font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; display: block; margin-bottom: 2px; }
+
+  /* FLASHCARD MODE */
+  .flashcard-area { display: none; }
+  .flashcard-area.active { display: block; }
+  .flashcard {
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    padding: 28px 24px;
+    text-align: center;
+    margin-bottom: 16px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .flashcard::before {
+    content: attr(data-step);
+    position: absolute; top: 0; right: 0;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    color: rgba(255,255,255,0.03);
+    line-height: 1;
+  }
+  .flashcard-proc {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--red);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+  .flashcard-q {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    color: var(--white);
+    line-height: 1.5;
+    max-width: 600px;
+    margin-bottom: 8px;
+  }
+  .flashcard-q span { color: var(--accent); font-weight: 600; }
+  .flashcard-hint {
+    font-size: 11px;
+    color: #555;
+    font-family: 'IBM Plex Mono', monospace;
+    margin-top: 8px;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .flashcard-hint:hover { color: var(--accent); }
+  .flashcard-answer {
+    background: #0d1f0d;
+    border: 1px solid var(--green);
+    border-radius: 3px;
+    padding: 12px 18px;
+    margin-top: 14px;
+    font-size: 13px;
+    color: #81c784;
+    font-family: 'IBM Plex Mono', monospace;
+    line-height: 1.5;
+    display: none;
+    max-width: 600px;
+    text-align: left;
+  }
+  .flashcard-answer.visible { display: block; }
+
+  .fc-progress {
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: #555;
+    margin-bottom: 12px;
+  }
+  .fc-progress span { color: var(--white); }
+
+  .fc-nav {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .fc-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 8px 20px;
+    cursor: pointer;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    color: #888;
+  }
+  .fc-btn:hover { border-color: var(--white); color: var(--white); }
+  .fc-btn.primary { background: var(--red); border-color: var(--red); color: white; }
+  .fc-btn.primary:hover { background: var(--red-light); }
+
+  /* PROGRESS BAR */
+  .progress-bar-wrap {
+    background: var(--grey);
+    border-radius: 2px;
+    height: 4px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--red);
+    transition: width 0.4s ease;
+    border-radius: 2px;
+  }
+
+  /* STATS PANEL */
+  .stats-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .stat-box {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 10px 16px;
+    text-align: center;
+    min-width: 80px;
+  }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--white);
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 2px;
+  }
+
+  /* TOOLTIP */
+  .tip {
+    display: inline-block;
+    background: var(--grey);
+    border: 1px solid #333;
+    border-radius: 2px;
+    padding: 2px 7px;
+    font-size: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    color: #666;
+    margin-left: 6px;
+  }
+
+  /* Responsive touch */
+  @media (max-width: 500px) {
+    .proc-grid { grid-template-columns: 1fr 1fr; }
+    .action-row { flex-direction: column; }
+    .action-row button { width: 100%; }
+  }
+
+  .footer {
+    text-align: center;
+    font-size: 10px;
+    color: #333;
+    font-family: 'IBM Plex Mono', monospace;
+    padding: 20px;
+    border-top: 1px solid #1a1a1a;
+    margin-top: 40px;
+    letter-spacing: 1px;
+  }
+  .footer span { color: var(--red); }
+</style>
+</head>
+<body>
+
+
+
+<div class=&quot;nav-bar&quot;>
+  <button class=&quot;nav-btn active&quot; onclick=&quot;showSection('select')&quot;>Scegli Procedura</button>
+  <button class=&quot;nav-btn&quot; onclick=&quot;showSection('stats')&quot;>I Miei Progressi</button>
+</div>
+
+<div class=&quot;container&quot;>
+
+  <!-- SECTION: PROCEDURE SELECT -->
+  <div id=&quot;section-select&quot;>
+    <div style=&quot;margin-bottom:16px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#666; text-transform:uppercase; letter-spacing:1.5px;&quot;>
+      Seleziona la procedura da allenare
+    </div>
+    <div class=&quot;proc-grid&quot; id=&quot;proc-grid&quot;></div>
+  </div>
+
+  <!-- SECTION: STATS -->
+  <div id=&quot;section-stats&quot; style=&quot;display:none;&quot;>
+    <div style=&quot;font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:2px; margin-bottom:20px;&quot;>I Miei Progressi</div>
+    <div class=&quot;stats-row&quot; id=&quot;global-stats&quot;></div>
+    <div id=&quot;proc-stats-list&quot;></div>
+  </div>
+
+  <!-- GAME AREA -->
+  <div id=&quot;game-area&quot; class=&quot;game-area&quot;>
+    <div class=&quot;game-header&quot;>
+      <div>
+        <div class=&quot;game-title&quot;><span id=&quot;game-title-proc&quot;></span></div>
+      </div>
+      <button class=&quot;back-btn&quot; onclick=&quot;goBack()&quot;>← Indietro</button>
+    </div>
+
+    <div class=&quot;mode-row&quot;>
+      <button class=&quot;mode-btn active&quot; id=&quot;mode-drag&quot; onclick=&quot;setMode('drag')&quot;>🔀 Ordina i Passi</button>
+      <button class=&quot;mode-btn&quot; id=&quot;mode-flash&quot; onclick=&quot;setMode('flash')&quot;>🃏 Flashcard</button>
+    </div>
+
+    <div class=&quot;progress-bar-wrap&quot;>
+      <div class=&quot;progress-bar-fill&quot; id=&quot;progress-fill&quot; style=&quot;width:0%&quot;></div>
+    </div>
+
+    <!-- DRAG MODE -->
+    <div id=&quot;drag-mode&quot; class=&quot;flashcard-area active&quot;>
+      <div class=&quot;instructions&quot;>
+        <strong>Modalità Ordina:</strong> Trascina ogni passo nella casella corrispondente (PASSI DA ORDINARE → SEQUENZA CORRETTA) nell'ordine corretto. Puoi anche cliccare su un passo per spostarlo. Tieni presente che l'ordine è determinante per la sicurezza del paziente.
+      </div>
+
+      <div class=&quot;drag-container&quot;>
+        <div>
+          <div class=&quot;drag-pool-title&quot;>Passi da Ordinare <span class=&quot;tip&quot; id=&quot;pool-count&quot;>0</span></div>
+          <div id=&quot;drag-pool&quot;></div>
+        </div>
+        <div>
+          <div class=&quot;drag-target-title&quot;>Sequenza Corretta</div>
+          <div id=&quot;drag-target&quot;></div>
+        </div>
+      </div>
+
+      <div class=&quot;action-row&quot;>
+        <button class=&quot;btn-check&quot; onclick=&quot;checkOrder()&quot;>✓ Verifica Ordine</button>
+        <button class=&quot;btn-reset&quot; onclick=&quot;resetDrag()&quot;>↺ Rimescola</button>
+        <button class=&quot;btn-reveal&quot; onclick=&quot;revealSolution()&quot;>👁 Mostra Soluzione</button>
+      </div>
+
+      <div class=&quot;result-panel&quot; id=&quot;result-panel&quot;>
+        <div class=&quot;result-score&quot; id=&quot;result-score&quot;></div>
+        <div class=&quot;result-msg&quot; id=&quot;result-msg&quot;></div>
+        <ul class=&quot;error-list&quot; id=&quot;error-list&quot;></ul>
+      </div>
+    </div>
+
+    <!-- FLASH MODE -->
+    <div id=&quot;flash-mode&quot; class=&quot;flashcard-area&quot;>
+      <div class=&quot;fc-progress&quot;>Carta <span id=&quot;fc-current&quot;>1</span> / <span id=&quot;fc-total&quot;>0</span></div>
+      <div class=&quot;flashcard&quot; id=&quot;flashcard&quot; data-step=&quot;&quot;>
+        <div class=&quot;flashcard-proc&quot; id=&quot;fc-proc&quot;></div>
+        <div class=&quot;flashcard-q&quot; id=&quot;fc-q&quot;></div>
+        <div class=&quot;flashcard-hint&quot; onclick=&quot;toggleAnswer()&quot;>[ tocca per vedere la risposta ]</div>
+        <div class=&quot;flashcard-answer&quot; id=&quot;fc-answer&quot;></div>
+      </div>
+      <div class=&quot;fc-nav&quot;>
+        <button class=&quot;fc-btn&quot; onclick=&quot;fcNav(-1)&quot;>← Precedente</button>
+        <button class=&quot;fc-btn primary&quot; onclick=&quot;toggleAnswer()&quot;>Rivela / Nascondi</button>
+        <button class=&quot;fc-btn&quot; onclick=&quot;fcNav(1)&quot;>Successiva →</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<script>
+// =============================================
+// DATA – Procedure estratte dalle schede LAP ufficiali
+// =============================================
+const PROCEDURES = [
+  {
+    id: 'collare2p',
+    icon: '🦺',
+    name: 'Collare Cervicale (2 pezzi)',
+    ref: 'LAP A: 2/3 · LAP B: 9/11',
+    steps: [
+      'Socc. A immobilizza il capo con approccio frontale (se non possibile: laterale), presentandosi',
+      'Socc. B immobilizza il capo posteriormente',
+      'Socc. B si posiziona a lato dell\'infortunato',
+      'Socc. B libera la zona del collo da collane, orecchini e indumenti',
+      'Socc. B rileva la distanza tra la base del collo e la linea immaginaria sotto il mento (con le dita della propria mano)',
+      'Socc. B sceglie il collare in base alla misura rilevata (distanza tra il perno e il bordo inferiore rigido del collare)',
+      'Socc. B posiziona la parte anteriore del collare, facendola aderire sotto il mento',
+      'Socc. B chiude il velcro della parte anteriore dopo averlo fatto scorrere dietro la nuca',
+      'Socc. B posiziona la parte posteriore del collare cervicale facendolo scorrere dietro la nuca',
+      'Socc. A asseconda la manovra mantenendo l\'immobilizzazione del capo (coordinandosi con B)',
+      'Socc. B chiude la parte posteriore del collare con entrambe le mani contemporaneamente, facendo leva sulla parte anteriore',
+      'Socc. B verifica il corretto posizionamento facendo aprire la bocca all\'infortunato',
+    ]
+  },
+  {
+    id: 'collare1p',
+    icon: '🦺',
+    name: 'Collare Monopezzo (sogg. sdraiato)',
+    ref: 'LAP A: 2/3 · LAP B: 8/10',
+    steps: [
+      'Socc. A immobilizza il capo con approccio frontale (se non possibile: laterale), presentandosi',
+      'Socc. B immobilizza il capo posteriormente',
+      'Socc. B si posiziona a lato dell\'infortunato',
+      'Socc. B libera la zona del collo da collane, orecchini e indumenti',
+      'Socc. B rileva la distanza tra la base del collo e la linea immaginaria sotto il mento (con le dita della propria mano)',
+      'Socc. B sceglie il collare in base alla misura rilevata (distanza tra il perno/linea e il bordo inferiore rigido del collare)',
+      'Socc. B posiziona la parte POSTERIORE del collare, facendola aderire alla nuca',
+      'Socc. B fa scivolare la parte ANTERIORE del collare, facendola aderire sotto al mento',
+      'Socc. A asseconda la manovra mantenendo l\'immobilizzazione del capo (coordinandosi con B)',
+      'Socc. B chiude il velcro a lato mantenendo la posizione del collare con l\'altra mano',
+      'Socc. B verifica il corretto posizionamento facendo aprire la bocca all\'infortunato',
+    ]
+  },
+  {
+    id: 'casco',
+    icon: '🪖',
+    name: 'Estrazione del Casco',
+    ref: 'LAP A: 6/7 · LAP B: 5/6',
+    steps: [
+      'Socc. A immobilizza il capo con approccio frontale, presentandosi',
+      'Socc. B immobilizza il capo (con il casco) posteriormente',
+      'Al comando di B, Socc. A lascia la presa',
+      'Socc. A apre la visiera e scioglie/taglia il sottogola',
+      'Socc. A controlla la presenza di occhiali e microfoni e li rimuove (se presenti)',
+      'Socc. A posiziona una mano sotto la nuca con l\'avambraccio appoggiato a terra (pollice e indice reggono la zona occipitale, il palmo regge la colonna cervicale) e posiziona l\'altra mano a livello mandibolare (avambraccio sullo sterno)',
+      'Al comando di A, Socc. B inizia la manovra di estrazione',
+      'Socc. B impugna il casco all\'altezza del cinturino e lo dilata',
+      'Socc. B sfila lentamente il casco basculandolo con piccoli movimenti antero-posteriori (coordinandosi con A)',
+      'Socc. B assume posizione stabile e immobilizza il capo posteriormente (mantenendo in posizione neutra)',
+      'Al comando di B, Socc. A lascia il capo',
+    ]
+  },
+  {
+    id: 'spinale',
+    icon: '🛏',
+    name: 'Immobilizzazione su Spinale',
+    ref: 'LAP A: 3/4 · LAP B: 18/23 · LAP C: 18/23',
+    steps: [
+      'Socc. A mantiene il capo in allineamento posteriormente',
+      'Socc. B e C coprono l\'infortunato con la metallina',
+      'Socc. B e C dispongono il cinghiaggio sull\'infortunato (dalle spalle alle caviglie)',
+      'Socc. B e C aprono la cinghia a &quot;V&quot; contemporaneamente e la inseriscono nel foro della spinale in prossimità delle SPALLE',
+      'Socc. B e C chiudono la cinghia delle spalle controllando che la &quot;V&quot; rimanga alla base del collare',
+      'Socc. B e C aprono la cinghia sul TORACE contemporaneamente e la inseriscono nel foro della spinale sotto le ascelle',
+      'Socc. B e C chiudono la cinghia del torace',
+      'Socc. B e C aprono la cinghia sul BACINO contemporaneamente e la inseriscono nel foro della spinale in prossimità delle creste iliache',
+      'Socc. B e C chiudono la cinghia del bacino',
+      'Socc. B e C aprono la cinghia sul GINOCCHIO contemporaneamente e la inseriscono sopra l\'articolazione del ginocchio',
+      'Socc. B e C chiudono la cinghia del ginocchio',
+      'Socc. B e C aprono la cinghia sulle CAVIGLIE contemporaneamente e la inseriscono nel foro della spinale in prossimità delle caviglie',
+      'Socc. B e C chiudono la cinghia delle caviglie',
+      'Socc. B e C, all\'altezza del torace, chiedono all\'altro soccorritore di posizionare una mano sotto la cinghia prima di stringerla',
+      'Socc. B e C posizionano i cuscini ai lati del capo dell\'infortunato',
+      'Socc. A sfila le mani per far aderire i cuscini al capo',
+      'Socc. A mantiene i cuscini aderenti alla tavola spinale e al capo',
+      'Socc. B e C posizionano il fermacapo SOTTO IL MENTO',
+      'Socc. B e C posizionano il fermacapo SOPRA LA FRONTE',
+      'Socc. B e C stringono le cinghie a partire dalle caviglie',
+    ]
+  },
+  {
+    id: 'ked',
+    icon: '🦌',
+    name: 'KED / Traumaestricatore',
+    ref: 'LAP A: 17/23 · LAP B: 13/16 · LAP C: 7/9',
+    steps: [
+      'Socc. A immobilizza il capo con approccio frontale (se non possibile: laterale), presentandosi',
+      'Socc. C immobilizza il capo posteriormente',
+      'Socc. A e C pongono l\'infortunato in posizione neutra (colonna in asse)',
+      'Socc. A e B posizionano il collare cervicale',
+      'Al comando di C, Socc. B agevola l\'inserimento del KED',
+      'Al comando di C, Socc. A inserisce il KED (ali ripiegate verso l\'esterno, cinghie cosciali tese posteriormente)',
+      'Socc. A e B sganciano la cinghia inguinale e la pongono dal proprio lato',
+      'Socc. A e B avvolgono le ali del KED al tronco dell\'infortunato',
+      'Socc. A e B tirano il KED verso l\'alto posizionando le ali sotto l\'ascella',
+      'Socc. A chiude la cinghia CENTRALE, tirandola senza stringere',
+      'Socc. A chiude la cinghia INFERIORE, tirandola senza stringere',
+      'Socc. A chiude la cinghia TORACICA, tirandola senza stringere',
+      'Socc. A e B posizionano le cinghie inguinali (inserendole sotto le gambe con movimento a sega)',
+      'Socc. A e B chiudono e stringono le cinghie inguinali',
+      'Socc. A stringe le cinghie centrale e inferiore già allacciate (assecondandone lo scorrimento per evitare trazioni laterali)',
+      'Al comando di C, Socc. A e B avvolgono le ali del KED attorno al capo dell\'infortunato',
+      'Socc. A e B inseriscono il cuscino dietro il collo (se necessario)',
+      'Socc. C agevola il posizionamento delle ali del KED attorno al capo dell\'infortunato',
+      'Socc. A e B immobilizzano il capo posizionando la cinghia SOTTO IL MENTO',
+      'Socc. A e B immobilizzano il capo posizionando la cinghia SOPRA LA FRONTE',
+      'Socc. A stringe la cinghia toracica chiedendo all\'altro soccorritore di posizionare una mano sotto la cinghia prima di stringerla',
+      'Socc. C lascia il capo dell\'infortunato e prepara la tavola spinale',
+      'Socc. A e B ruotano lentamente l\'infortunato con la schiena verso l\'esterno o l\'interno dell\'auto (coordinandosi)',
+      'Socc. C posiziona e mantiene la tavola spinale (parte più stretta sul sottoporta o sul sedile)',
+      'Socc. A, B e C adagiano il tronco dell\'infortunato sulla tavola spinale',
+      'Socc. A, B e C trascinano l\'infortunato verso l\'alto sulla tavola spinale mantenendolo in asse',
+      'Socc. A, B e C depongono la spinale a terra e slacciano la cinghia inguinale, toracica e sottogola',
+    ]
+  },
+  {
+    id: 'logroll',
+    icon: '🔄',
+    name: 'Log Roll',
+    ref: 'LAP A: 4/5 · LAP B: 7/9 · LAP C: 6/8',
+    steps: [
+      'Socc. B immobilizza il capo con approccio frontale, presentandosi',
+      'Socc. A (leader) si posiziona dietro al capo dell\'infortunato, dalla parte della nuca, lateralmente (in modo da assecondare la successiva rotazione)',
+      'Socc. A immobilizza il capo posizionando le mani ai lati della testa (senza sollevarla), inserendole dalla parte della nuca (in modo da assecondare la successiva rotazione)',
+      'Socc. B e C allineano gli arti',
+      'Socc. B e C legano le caviglie',
+      'Socc. B si inginocchia a lato dell\'infortunato, all\'altezza del torace',
+      'Socc. C si inginocchia a lato dell\'infortunato, all\'altezza del bacino',
+      'Socc. B posiziona una mano sulla spalla e una mano sull\'anca',
+      'Socc. C posiziona una mano sulla cresta iliaca (incrociando il braccio dell\'altro soccorritore) e una mano sulla coscia',
+      'Socc. A (leader) dà il via alla manovra di rotazione a Socc. B e C',
+      'Al comando del leader, Socc. B e C ruotano lentamente l\'infortunato posizionandolo perpendicolarmente al suolo (circa 90°)',
+      'Socc. B e C ruotano le mani per effettuare la &quot;frenatura&quot; del corpo, facendolo scivolare sulle cosce',
+      'Socc. A mantiene l\'allineamento del capo',
+      'Al comando del leader, Socc. B e C completano la rotazione posizionando l\'infortunato supino',
+    ]
+  },
+  {
+    id: 'cucchiaio',
+    icon: '🥄',
+    name: 'Caricamento su Barella a Cucchiaio',
+    ref: 'LAP A: 5/7 · LAP B: 13/17 · LAP C: 14/18',
+    steps: [
+      'Socc. A (leader) mantiene il capo in allineamento',
+      'Socc. B e C allineano gli arti dell\'infortunato',
+      'Socc. B e C posizionano la barella a cucchiaio (chiusa) e la allungano in relazione all\'altezza dell\'infortunato (coordinandosi)',
+      'Socc. B e C aprono la barella a cucchiaio (coordinandosi)',
+      'Socc. B e C posizionano una valva della barella a lato dell\'infortunato',
+      'Socc. B si inginocchia a lato dell\'infortunato all\'altezza del TORACE (dalla parte opposta della valva)',
+      'Socc. C si inginocchia a lato dell\'infortunato all\'altezza del BACINO (dalla parte opposta della valva)',
+      'Socc. B posiziona una mano sulla spalla e una mano sull\'anca',
+      'Socc. C posiziona una mano sulla cresta iliaca (incrociando il braccio dell\'altro soccorritore) e una mano sulla coscia',
+      'Socc. A (leader) dà il via alla prima manovra di rotazione',
+      'Al comando del leader, Socc. B e C ruotano l\'infortunato nella misura strettamente necessaria a permettere l\'inserimento della valva',
+      'Socc. C mantiene una mano sulla cresta iliaca e con l\'altra posiziona la prima valva sotto la persona',
+      'Al comando del leader, Socc. B e C riadagiano l\'infortunato sulla prima valva',
+      'Socc. B e C si posizionano dall\'altro lato dell\'infortunato SENZA scavalcarlo',
+      'Socc. B e C riprendono la posizione in ginocchio posizionando le mani come in precedenza',
+      'Socc. A (leader) dà il via alla seconda manovra di rotazione',
+      'Al comando del leader, Socc. B e C ruotano l\'infortunato per inserire la seconda valva',
+      'Socc. C mantiene una mano sulla cresta iliaca e con l\'altra posiziona la seconda valva sotto la persona',
+      'Al comando del leader, Socc. B e C riadagiano l\'infortunato sulla seconda valva',
+      'Socc. B, restando a lato dell\'infortunato, immobilizza il capo con approccio frontale',
+      'Al comando di B, Socc. A lascia il capo',
+      'Socc. A e C chiudono le valve della barella a cucchiaio (coordinandosi)',
+      'Socc. A immobilizza il capo posteriormente, preparandosi per il sollevamento della barella a cucchiaio',
+      'A comando del leader (A), Socc. B lascia il capo',
+      'Socc. B e C si posizionano a lato della barella a cucchiaio (su lati opposti)',
+      'Al comando del leader, Socc. B e C sollevano la barella a cucchiaio',
+    ]
+  },
+];
+
+// =============================================
+// STATE
+// =============================================
+let currentProc = null;
+let currentMode = 'drag';
+let dragOrder = []; // shuffled indices
+let dropState = []; // what's in each drop zone (step index or null)
+let poolState = []; // what's still in pool
+let fcIndex = 0;
+let fcAnswerVisible = false;
+let scores = {};
+
+try { scores = JSON.parse(localStorage.getItem('cri_scores') || '{}'); } catch(e) {}
+
+// =============================================
+// HELPERS
+// =============================================
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function saveScore(procId, correct, total) {
+  if (!scores[procId]) scores[procId] = { attempts: 0, bestPct: 0 };
+  scores[procId].attempts++;
+  const pct = Math.round((correct / total) * 100);
+  if (pct > scores[procId].bestPct) scores[procId].bestPct = pct;
+  try { localStorage.setItem('cri_scores', JSON.stringify(scores)); } catch(e) {}
+}
+
+function showSection(name) {
+  document.getElementById('section-select').style.display = name === 'select' ? 'block' : 'none';
+  document.getElementById('section-stats').style.display = name === 'stats' ? 'block' : 'none';
+  document.getElementById('game-area').classList.toggle('active', name === 'game');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  if (name === 'select') document.querySelectorAll('.nav-btn')[0].classList.add('active');
+  if (name === 'stats') { document.querySelectorAll('.nav-btn')[1].classList.add('active'); renderStats(); }
+}
+
+// =============================================
+// RENDER PROCEDURE GRID
+// =============================================
+function renderProcGrid() {
+  const grid = document.getElementById('proc-grid');
+  grid.innerHTML = PROCEDURES.map(p => {
+    const s = scores[p.id];
+    const done = s &amp;&amp; s.bestPct >= 80;
+    return `
+      <div class=&quot;proc-card ${done ? 'done' : ''}&quot; onclick=&quot;startProc('${p.id}')&quot;>
+        ${done ? '<div class=&quot;proc-done&quot;>✓ ' + s.bestPct + '%</div>' : ''}
+        <div class=&quot;proc-icon&quot;>${p.icon}</div>
+        <div class=&quot;proc-name&quot;>${p.name}</div>
+        <div class=&quot;proc-count&quot;>${p.steps.length} passi · ${p.ref}</div>
+      </div>`;
+  }).join('');
+}
+
+// =============================================
+// START PROCEDURE
+// =============================================
+function startProc(id) {
+  currentProc = PROCEDURES.find(p => p.id === id);
+  if (!currentProc) return;
+
+  document.getElementById('game-title-proc').textContent = currentProc.name;
+  document.getElementById('section-select').style.display = 'none';
+  document.getElementById('section-stats').style.display = 'none';
+  document.getElementById('game-area').classList.add('active');
+
+  setMode('drag');
+  resetDrag();
+}
+
+function goBack() {
+  document.getElementById('game-area').classList.remove('active');
+  document.getElementById('section-select').style.display = 'block';
+  renderProcGrid();
+  showSection('select');
+}
+
+// =============================================
+// MODE TOGGLE
+// =============================================
+function setMode(mode) {
+  currentMode = mode;
+  document.getElementById('mode-drag').classList.toggle('active', mode === 'drag');
+  document.getElementById('mode-flash').classList.toggle('active', mode === 'flash');
+  document.getElementById('drag-mode').classList.toggle('active', mode === 'drag');
+  document.getElementById('flash-mode').classList.toggle('active', mode === 'flash');
+
+  if (mode === 'flash') initFlashcards();
+  if (mode === 'drag') resetDrag();
+}
+
+// =============================================
+// DRAG MODE
+// =============================================
+let draggingEl = null;
+let draggingFrom = null; // 'pool' or 'target:index'
+
+function resetDrag() {
+  if (!currentProc) return;
+  const steps = currentProc.steps;
+  dragOrder = shuffle([...Array(steps.length).keys()]);
+  dropState = new Array(steps.length).fill(null);
+  poolState = [...dragOrder];
+  renderDrag();
+  document.getElementById('result-panel').classList.remove('visible');
+  updateProgress();
+}
+
+function renderDrag() {
+  if (!currentProc) return;
+  const steps = currentProc.steps;
+
+  // Pool
+  const pool = document.getElementById('drag-pool');
+  pool.innerHTML = poolState.map((idx, i) =>
+    idx !== null ? `
+      <div class=&quot;drag-item&quot; draggable=&quot;true&quot;
+           data-idx=&quot;${idx}&quot; data-pool=&quot;${i}&quot;
+           ondragstart=&quot;onDragStart(event,'pool',${i})&quot;
+           ondragend=&quot;onDragEnd(event)&quot;
+           onclick=&quot;onPoolClick(${i})&quot;>
+        ${steps[idx]}
+      </div>` : ''
+  ).join('');
+  document.getElementById('pool-count').textContent = poolState.filter(x => x !== null).length;
+
+  // Target
+  const target = document.getElementById('drag-target');
+  target.innerHTML = steps.map((_, i) => {
+    const val = dropState[i];
+    if (val !== null) {
+      return `<div class=&quot;drag-item&quot; draggable=&quot;true&quot;
+                   data-idx=&quot;${val}&quot; data-zone=&quot;${i}&quot;
+                   ondragstart=&quot;onDragStart(event,'zone',${i})&quot;
+                   ondragend=&quot;onDragEnd(event)&quot;
+                   onclick=&quot;onTargetClick(${i})&quot;>
+                <span class=&quot;step-num&quot;>${String(i + 1).padStart(2, '0')}</span>${steps[val]}
+              </div>`;
+    } else {
+      return `<div class=&quot;drop-zone&quot; data-zone=&quot;${i}&quot;
+                   ondragover=&quot;onDragOver(event)&quot;
+                   ondragleave=&quot;onDragLeave(event)&quot;
+                   ondrop=&quot;onDrop(event,${i})&quot;>
+                <span class=&quot;step-label&quot;>STEP ${String(i + 1).padStart(2, '0')}</span>
+                Trascina qui il passo ${i + 1}…
+              </div>`;
+    }
+  }).join('');
+}
+
+function onDragStart(e, from, idx) {
+  draggingFrom = { from, idx };
+  e.currentTarget.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+}
+function onDragEnd(e) {
+  e.currentTarget.classList.remove('dragging');
+  draggingEl = null;
+}
+function onDragOver(e) {
+  e.preventDefault();
+  e.currentTarget.classList.add('drag-over');
+}
+function onDragLeave(e) {
+  e.currentTarget.classList.remove('drag-over');
+}
+function onDrop(e, zoneIdx) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if (!draggingFrom) return;
+
+  const { from, idx } = draggingFrom;
+  let stepVal = null;
+
+  if (from === 'pool') {
+    stepVal = poolState[idx];
+    poolState[idx] = null;
+  } else if (from === 'zone') {
+    stepVal = dropState[idx];
+    // Return old zone occupant to pool
+    const freeSlot = poolState.findIndex(x => x === null);
+    if (freeSlot >= 0) poolState[freeSlot] = stepVal;
+    else poolState.push(stepVal);
+    dropState[idx] = null;
+  }
+
+  // If zone already has something, swap to pool
+  if (dropState[zoneIdx] !== null) {
+    const displaced = dropState[zoneIdx];
+    const freeSlot = poolState.findIndex(x => x === null);
+    if (freeSlot >= 0) poolState[freeSlot] = displaced;
+    else poolState.push(displaced);
+  }
+
+  dropState[zoneIdx] = stepVal;
+  draggingFrom = null;
+  renderDrag();
+  updateProgress();
+}
+
+// Click-to-move (mobile friendly)
+let clickSelected = null;
+function onPoolClick(poolIdx) {
+  const val = poolState[poolIdx];
+  if (val === null) return;
+  if (clickSelected) {
+    // Place in first empty zone
+    const emptyZone = dropState.findIndex(x => x === null);
+    if (emptyZone >= 0) {
+      dropState[emptyZone] = val;
+      poolState[poolIdx] = null;
+    }
+    clickSelected = null;
+    renderDrag();
+    updateProgress();
+  } else {
+    clickSelected = { from: 'pool', idx: poolIdx };
+    // Visual feedback: highlight
+    document.querySelectorAll('#drag-pool .drag-item').forEach((el, i) => {
+      if (i === poolIdx) el.style.borderColor = 'var(--accent)';
+    });
+  }
+}
+function onTargetClick(zoneIdx) {
+  const val = dropState[zoneIdx];
+  if (val === null) return;
+  // Return to pool
+  const freeSlot = poolState.findIndex(x => x === null);
+  if (freeSlot >= 0) poolState[freeSlot] = val;
+  else poolState.push(val);
+  dropState[zoneIdx] = null;
+  clickSelected = null;
+  renderDrag();
+  updateProgress();
+}
+
+function updateProgress() {
+  if (!currentProc) return;
+  const filled = dropState.filter(x => x !== null).length;
+  const pct = Math.round((filled / currentProc.steps.length) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+function checkOrder() {
+  if (!currentProc) return;
+  const steps = currentProc.steps;
+  let correct = 0;
+  const errors = [];
+
+  for (let i = 0; i < steps.length; i++) {
+    if (dropState[i] === i) {
+      correct++;
+    } else if (dropState[i] !== null) {
+      errors.push({ zone: i, got: dropState[i], expected: i });
+    }
+  }
+
+  saveScore(currentProc.id, correct, steps.length);
+
+  const pct = Math.round((correct / steps.length) * 100);
+  const panel = document.getElementById('result-panel');
+  const score = document.getElementById('result-score');
+  const msg = document.getElementById('result-msg');
+  const errList = document.getElementById('error-list');
+
+  score.textContent = pct + '% CORRETTO';
+  score.className = 'result-score ' + (pct === 100 ? 'perfect' : pct >= 70 ? 'good' : 'bad');
+
+  if (pct === 100) {
+    msg.textContent = '🎯 Perfetto! Tutti i passi nell\'ordine corretto.';
+  } else if (pct >= 70) {
+    msg.textContent = `✓ Buono! ${correct}/${steps.length} passi corretti. Rivedi gli errori sotto.`;
+  } else {
+    msg.textContent = `⚠ ${correct}/${steps.length} passi corretti. Riprova!`;
+  }
+
+  errList.innerHTML = errors.slice(0, 5).map(e => `
+    <li>
+      <strong>Step ${e.zone + 1} – Posizione sbagliata:</strong>
+      Hai messo: &quot;${steps[e.got]}&quot;<br>
+      Atteso: &quot;${steps[e.expected]}&quot;
+    </li>`).join('');
+  if (errors.length > 5) errList.innerHTML += `<li><strong>+${errors.length - 5} altri errori…</strong></li>`;
+
+  panel.classList.add('visible');
+
+  // Color the drop items
+  document.querySelectorAll('#drag-target .drag-item').forEach(el => {
+    const zone = parseInt(el.dataset.zone);
+    const idx = parseInt(el.dataset.idx);
+    if (dropState[zone] !== null) {
+      el.classList.toggle('correct', idx === zone);
+      el.classList.toggle('wrong', idx !== zone);
+    }
+  });
+}
+
+function revealSolution() {
+  if (!currentProc) return;
+  dropState = [...Array(currentProc.steps.length).keys()];
+  poolState = [];
+  renderDrag();
+  updateProgress();
+  document.getElementById('result-panel').classList.remove('visible');
+}
+
+// =============================================
+// FLASHCARD MODE
+// =============================================
+function initFlashcards() {
+  if (!currentProc) return;
+  fcIndex = 0;
+  fcAnswerVisible = false;
+  document.getElementById('fc-total').textContent = currentProc.steps.length;
+  renderFlashcard();
+}
+
+function renderFlashcard() {
+  if (!currentProc) return;
+  const steps = currentProc.steps;
+  const i = fcIndex;
+  const pct = Math.round(((i + 1) / steps.length) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('fc-current').textContent = i + 1;
+  document.getElementById('fc-proc').textContent = currentProc.name;
+  document.getElementById('fc-q').innerHTML = `Qual è il <span>passo ${i + 1}</span> della procedura?`;
+  document.getElementById('flashcard').setAttribute('data-step', String(i + 1).padStart(2, '0'));
+  document.getElementById('fc-answer').textContent = steps[i];
+  document.getElementById('fc-answer').classList.remove('visible');
+  fcAnswerVisible = false;
+}
+
+function toggleAnswer() {
+  fcAnswerVisible = !fcAnswerVisible;
+  document.getElementById('fc-answer').classList.toggle('visible', fcAnswerVisible);
+}
+
+function fcNav(dir) {
+  if (!currentProc) return;
+  fcIndex = (fcIndex + dir + currentProc.steps.length) % currentProc.steps.length;
+  renderFlashcard();
+}
+
+// =============================================
+// STATS
+// =============================================
+function renderStats() {
+  const total = PROCEDURES.length;
+  const done = PROCEDURES.filter(p => scores[p.id] &amp;&amp; scores[p.id].bestPct >= 80).length;
+  const totalAttempts = Object.values(scores).reduce((a, b) => a + b.attempts, 0);
+
+  document.getElementById('global-stats').innerHTML = `
+    <div class=&quot;stat-box&quot;><div class=&quot;stat-num&quot;>${done}/${total}</div><div class=&quot;stat-label&quot;>Procedure Superate</div></div>
+    <div class=&quot;stat-box&quot;><div class=&quot;stat-num&quot;>${totalAttempts}</div><div class=&quot;stat-label&quot;>Tentativi Totali</div></div>
+  `;
+
+  document.getElementById('proc-stats-list').innerHTML = PROCEDURES.map(p => {
+    const s = scores[p.id];
+    const pct = s ? s.bestPct : 0;
+    const color = pct >= 80 ? 'var(--green-light)' : pct >= 60 ? 'var(--accent)' : '#666';
+    return `
+      <div style=&quot;background:var(--card-bg); border:1.5px solid var(--border); border-radius:4px; padding:14px 16px; margin-bottom:10px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;&quot;>
+        <div style=&quot;font-size:20px&quot;>${p.icon}</div>
+        <div style=&quot;flex:1; min-width:140px;&quot;>
+          <div style=&quot;font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; color:var(--white);&quot;>${p.name}</div>
+          <div style=&quot;font-size:10px; color:#555; font-family:'IBM Plex Mono',monospace; margin-top:2px;&quot;>${p.steps.length} passi · ${p.ref}</div>
+        </div>
+        <div style=&quot;text-align:right;&quot;>
+          <div style=&quot;font-family:'Bebas Neue',sans-serif; font-size:24px; color:${color};&quot;>${pct}%</div>
+          <div style=&quot;font-size:10px; color:#555; font-family:'IBM Plex Mono',monospace;&quot;>${s ? s.attempts + ' tentativi' : 'non ancora provata'}</div>
+        </div>
+        <button onclick=&quot;startProc('${p.id}')&quot; style=&quot;font-family:'IBM Plex Mono',monospace; font-size:11px; padding:7px 14px; background:var(--red); border:none; color:white; cursor:pointer; border-radius:2px; text-transform:uppercase; letter-spacing:1px; font-weight:600;&quot;>Allena →</button>
+      </div>`;
+  }).join('');
+}
+
+// =============================================
+// INIT
+// =============================================
+renderProcGrid();
+</script>
+</body>
+</html>
+"></iframe>
+    </div>
+    <div id="spane-domande" class="s-pane">
+<div class="dq-wrap">
+  <div class="dq-note">
+    <strong>NOTA OPERATIVA:</strong> Prima di qualsiasi domanda, valuta la sicurezza della scena e la risposta del paziente (AVPU). Queste domande si pongono durante la valutazione secondaria, dopo aver garantito ABC. Qualificati e rassicura sempre il paziente prima di iniziare.
+  </div>
+
+  <div class="dq-section">
+    <div class="dq-sec-header"><span class="dq-sec-num">1</span><span class="dq-sec-title">IDENTIFICAZIONE</span><span class="dq-sec-sub">per intestazione scheda</span></div>
+    <div class="dq-list">
+      <div class="dq-item"><span class="dq-n">1.</span><span class="dq-t">Come si chiama? (nome e cognome)</span></div>
+      <div class="dq-item"><span class="dq-n">2.</span><span class="dq-t">Quanti anni ha? / Qual &egrave; la sua data di nascita?</span></div>
+      <div class="dq-item"><span class="dq-n">3.</span><span class="dq-t">Dove abita? (indirizzo di residenza e comune)</span></div>
+      <div class="dq-item"><span class="dq-n">4.</span><span class="dq-t">Ha con s&eacute; un documento d&apos;identit&agrave;? (codice fiscale)</span></div>
+    </div>
+  </div>
+
+  <div class="dq-section">
+    <div class="dq-sec-header"><span class="dq-sec-num">2</span><span class="dq-sec-title">EVENTO</span><span class="dq-sec-sub">dinamica per scheda e C.O.</span></div>
+    <div class="dq-list">
+      <div class="dq-item"><span class="dq-n">5.</span><span class="dq-t">Cosa &egrave; successo? Mi pu&ograve; spiegare cos&apos;ha?</span></div>
+      <div class="dq-item"><span class="dq-n">6.</span><span class="dq-t">Da quanto tempo ha questo problema / da quando si sente cos&igrave;? <span class="dq-emph">IMPORTANTE per patologie tempo-dipendenti (dolore toracico, ictus): registrare l&apos;ora di esordio precisa</span></span></div>
+      <div class="dq-item"><span class="dq-n">7.</span><span class="dq-t">&Egrave; successo qualcosa che ha causato questa situazione? (caduta, impatto, sforzo, stress, ingestione di qualcosa&hellip;)</span></div>
+    </div>
+  </div>
+
+  <div class="dq-section">
+    <div class="dq-sec-header"><span class="dq-sec-num">3</span><span class="dq-sec-title">SINTOMO PRINCIPALE</span><span class="dq-sec-sub">utile per identificare la classe di patologia</span></div>
+    <div class="dq-list">
+      <div class="dq-item"><span class="dq-n">8.</span><span class="dq-t">Dove sente il disturbo / il dolore esattamente? (chiedere di indicare con un dito)</span></div>
+      <div class="dq-item"><span class="dq-n">9.</span><span class="dq-t">Il dolore/disturbo si irradia da qualche altra parte? (braccio sinistro, mandibola, schiena, epigastrio&hellip;)</span></div>
+      <div class="dq-item"><span class="dq-n">10.</span><span class="dq-t">Come descriverebbe il dolore? (costrittivo, opprimente, pungente, bruciante, sordo&hellip;)</span></div>
+      <div class="dq-item"><span class="dq-n">11.</span><span class="dq-t">Da 1 a 10, quanto &egrave; intenso il dolore adesso? <span class="dq-emph">Scala NRS/PRS &mdash; registrare il valore sulla scheda</span></span></div>
+      <div class="dq-item"><span class="dq-n">12.</span><span class="dq-t">Il dolore/disturbo &egrave; continuo o va e viene?</span></div>
+      <div class="dq-item"><span class="dq-n">13.</span><span class="dq-t">C&apos;&egrave; qualcosa che lo peggiora o lo migliora? (movimento, respiro, posizione, riposo&hellip;)</span></div>
+      <div class="dq-item"><span class="dq-n">14.</span><span class="dq-t">Ha altri disturbi oltre a questo? (mancanza di respiro, nausea, vomito, sudorazione, palpitazioni, vertigini, debolezza, febbre&hellip;)</span></div>
+    </div>
+  </div>
+
+  <div class="dq-section">
+    <div class="dq-sec-header"><span class="dq-sec-num">4</span><span class="dq-sec-title">ANAMNESI</span><span class="dq-sec-sub">AMPLE &mdash; per scheda e C.O.</span></div>
+    <div class="dq-ample-grid">
+      <div class="dq-ample-card"><div class="dq-ample-letter">A</div><div class="dq-ample-label">ALLERGIE</div><div class="dq-ample-q">15. &Egrave; allergico a qualcosa? (farmaci, alimenti, lattice, punture di insetti&hellip;)</div></div>
+      <div class="dq-ample-card"><div class="dq-ample-letter">M</div><div class="dq-ample-label">MEDICINALI</div><div class="dq-ample-q">16. Prende farmaci abitualmente? Quali? (chiedere di mostrare le confezioni se possibile)</div><div class="dq-ample-q">17. Ha preso qualche farmaco nelle ultime ore? Quale e quando?</div></div>
+      <div class="dq-ample-card"><div class="dq-ample-letter">P</div><div class="dq-ample-label">PATOLOGIE PREGRESSE</div><div class="dq-ample-q">18. Ha malattie note? &Egrave; seguito da qualche medico? (cardiopatia, ipertensione, diabete, asma, epilessia, insufficienza renale, patologie neurologiche&hellip;)</div><div class="dq-ample-q">19. &Egrave; mai stato ricoverato o operato in passato? (in particolare per lo stesso problema di oggi)</div></div>
+      <div class="dq-ample-card"><div class="dq-ample-letter">L</div><div class="dq-ample-label">ULTIMO PASTO</div><div class="dq-ample-q">20. Quando ha mangiato o bevuto l&apos;ultima volta? (importante in caso di intervento chirurgico o perdita di coscienza)</div></div>
+      <div class="dq-ample-card"><div class="dq-ample-letter">E</div><div class="dq-ample-label">EVENTO / STORIA RECENTE</div><div class="dq-ample-q">21. Ha avuto episodi simili in passato? (se s&igrave;: quando? come si &egrave; risolto? &egrave; andato in ospedale?)</div><div class="dq-ample-q">22. &Egrave; in dialisi? / Ha problemi renali noti? (rilevante per gestione accessi vascolari &mdash; FAV/CVC)</div></div>
+    </div>
+  </div>
+
+  <div class="dq-section">
+    <div class="dq-sec-header"><span class="dq-sec-num">5</span><span class="dq-sec-title">DOMANDE SPECIFICHE</span><span class="dq-sec-sub">da aggiungere in base al quadro clinico osservato</span></div>
+    <div class="dq-specific-grid">
+      <div class="dq-spec-card">
+        <div class="dq-spec-tag">&#9829; SOSPETTO CARDIACO / DOLORE TORACICO</div>
+        <div class="dq-item"><span class="dq-n">23.</span><span class="dq-t">Il dolore &egrave; al petto o allo stomaco?</span></div>
+        <div class="dq-item"><span class="dq-n">24.</span><span class="dq-t">Ha gi&agrave; avuto un infarto o angina in passato?</span></div>
+        <div class="dq-item"><span class="dq-n">25.</span><span class="dq-t">Ha con s&eacute; la nitroglicerina o altri farmaci per il cuore? Ha gi&agrave; usato la nitroglicerina oggi?</span></div>
+      </div>
+      <div class="dq-spec-card">
+        <div class="dq-spec-tag">&#129504; SOSPETTO NEUROLOGICO / ICTUS</div>
+        <div class="dq-item"><span class="dq-n">26.</span><span class="dq-t">Riesce a muovere normalmente braccia e gambe, riesce a sorridere?</span></div>
+        <div class="dq-item"><span class="dq-n">27.</span><span class="dq-t">Ha difficolt&agrave; a parlare o capire quello che le dico?</span></div>
+        <div class="dq-item"><span class="dq-n">28.</span><span class="dq-t">Ha mal di testa improvviso e molto intenso?</span></div>
+        <div class="dq-item"><span class="dq-n">29.</span><span class="dq-t">Ha la visione alterata o vede doppio?</span></div>
+      </div>
+      <div class="dq-spec-card">
+        <div class="dq-spec-tag">&#128168; SOSPETTO RESPIRATORIO</div>
+        <div class="dq-item"><span class="dq-n">30.</span><span class="dq-t">Ha difficolt&agrave; a respirare? Da quando?</span></div>
+        <div class="dq-item"><span class="dq-n">31.</span><span class="dq-t">&Egrave; asmatico? Ha con s&eacute; l&apos;inalatore?</span></div>
+        <div class="dq-item"><span class="dq-n">32.</span><span class="dq-t">Ha tosse? Produce catarro? Di che colore?</span></div>
+      </div>
+      <div class="dq-spec-card">
+        <div class="dq-spec-tag">&#129354; SOSPETTO TRAUMA</div>
+        <div class="dq-item"><span class="dq-n">33.</span><span class="dq-t">Ha sbattuto la testa?</span></div>
+        <div class="dq-item"><span class="dq-n">34.</span><span class="dq-t">Ha dolore al collo o alla schiena? <span class="dq-emph">NON far muovere il paziente fino a esclusione trauma rachide</span></span></div>
+        <div class="dq-item"><span class="dq-n">35.</span><span class="dq-t">Riesce a muovere tutte le dita di mani e piedi? Sente formicolio o perdita di sensibilit&agrave;?</span></div>
+      </div>
+      <div class="dq-spec-card">
+        <div class="dq-spec-tag">&#9888; SOSPETTA INTOSSICAZIONE</div>
+        <div class="dq-item"><span class="dq-n">36.</span><span class="dq-t">Ha ingerito, inalato o toccato qualcosa di insolito?</span></div>
+        <div class="dq-item"><span class="dq-n">37.</span><span class="dq-t">Pu&ograve; mostrarmi il contenitore / la sostanza? <span class="dq-emph">Conservare sempre il contenitore per il PS</span></span></div>
+      </div>
+      <div class="dq-spec-card">
+        <div class="dq-spec-tag">&#128137; SOSPETTA PATOLOGIA METABOLICA (diabete)</div>
+        <div class="dq-item"><span class="dq-n">38.</span><span class="dq-t">&Egrave; diabetico? Ha mangiato regolarmente oggi?</span></div>
+        <div class="dq-item"><span class="dq-n">39.</span><span class="dq-t">Ha assunto insulina o farmaci per il diabete oggi?</span></div>
+      </div>
+      <div class="dq-spec-card">
+        <div class="dq-spec-tag">&#128118; GRAVIDANZA / EMERGENZA OSTETRICA</div>
+        <div class="dq-item"><span class="dq-n">40.</span><span class="dq-t">&Egrave; incinta? Quante settimane/mesi?</span></div>
+        <div class="dq-item"><span class="dq-n">41.</span><span class="dq-t">Perde sangue o liquidi? Sente le contrazioni?</span></div>
+        <div class="dq-item"><span class="dq-n">42.</span><span class="dq-t">&Egrave; il primo parto? Sa la data prevista?</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dq-section">
+    <div class="dq-sec-header"><span class="dq-sec-num">6</span><span class="dq-sec-title">CONSENSO E ACCOMPAGNATORI</span></div>
+    <div class="dq-list">
+      <div class="dq-item"><span class="dq-n">43.</span><span class="dq-t">C&apos;&egrave; qualcuno con lei? Un familiare che possiamo contattare?</span></div>
+      <div class="dq-item"><span class="dq-n">44.</span><span class="dq-t">Accetta il trasporto in ospedale? <span class="dq-emph">Registrare consenso esplicito o rifiuto sulla scheda</span></span></div>
+    </div>
+  </div>
+
+  <div class="dq-section dq-section-co">
+    <div class="dq-sec-header"><span class="dq-sec-num">7</span><span class="dq-sec-title">PROMEMORIA COMUNICAZIONE C.O. 118</span></div>
+    <div class="dq-co-grid">
+      <div class="dq-co-item">&#128251; Identificativo mezzo sul target</div>
+      <div class="dq-co-item">&#128100; Sesso ed et&agrave; approssimativa</div>
+      <div class="dq-co-item">&#127991; Classe di patologia presunta (codice arrivo)</div>
+      <div class="dq-co-item">&#9200; Sintomo/i principali e ora di esordio</div>
+      <div class="dq-co-item">&#128202; Parametri vitali (AVPU, FC, FR, SpO2, PAO)</div>
+      <div class="dq-co-item">&#128290; Scala NRS/PRS del dolore</div>
+      <div class="dq-co-item">&#128138; Trattamenti effettuati</div>
+      <div class="dq-co-item">&#128678; Codice di criticit&agrave; proposto (B/V/G/R)</div>
+      <div class="dq-co-item">&#127973; Ospedale di destinazione proposto</div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+
+  <!-- ── TEORICA ── -->
+  <div id="pane-teorica" class="m-pane">
+    <iframe class="app-iframe" title="Quiz CRI Allegato A" srcdoc="<!DOCTYPE html>
+<html lang=&quot;it&quot;>
+<head>
+<meta charset=&quot;UTF-8&quot;>
+<meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+<title>Quiz CRI – Allegato A</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=IBM+Plex+Mono:wght@400;600&amp;family=IBM+Plex+Sans:wght@300;400;600&amp;display=swap');
+:root{--red:#CE1126;--dark:#8B0000;--green:#1a7a3e;--gl:#d4edda;--rl:#fde8ea;--warn:#e67e00;--wl:#fff3e0;--bg:#f5f4f0;--card:#fff;--bd:#e0ddd8;--txt:#1a1a1a;--mut:#6b6b6b;--blue:#1a5fa3;--bll:#e8f1fc;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;}
+
+/* HEADER */
+header{background:var(--red);color:#fff;padding:10px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.25);}
+.cx{width:34px;height:34px;background:#fff;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.cx svg{width:22px;height:22px;}
+.htitle{flex:1;}
+.htitle h1{font-size:.95rem;font-weight:700;line-height:1.2;}
+.htitle p{font-size:.72rem;opacity:.85;margin-top:1px;}
+#timer-box{background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.4);border-radius:8px;padding:5px 12px;font-family:'IBM Plex Mono',monospace;font-size:.95rem;font-weight:700;min-width:80px;text-align:center;display:none;transition:background .3s,color .3s;}
+#timer-box.warn{background:#ff9800;border-color:#ff9800;}
+#timer-box.danger{background:#fff;color:var(--red);border-color:#fff;}
+
+/* PROGRESS */
+#pb-wrap{background:#fff;border-bottom:1px solid var(--bd);padding:7px 16px;display:none;align-items:center;gap:12px;}
+#pb-track{flex:1;height:6px;background:#e0ddd8;border-radius:99px;overflow:hidden;}
+#pb-fill{height:100%;background:var(--red);border-radius:99px;transition:width .35s ease;width:0;}
+#pb-txt,#sc-live{font-size:.78rem;font-weight:700;font-family:'IBM Plex Mono',monospace;white-space:nowrap;color:var(--mut);}
+#sc-live{color:var(--green);}
+
+/* SCREENS */
+.screen{display:none;}.screen.active{display:block;}
+
+/* START SCREEN */
+#ss{max-width:640px;margin:32px auto;padding:0 16px 40px;}
+.sc{background:var(--card);border-radius:16px;padding:30px 26px;box-shadow:0 2px 12px rgba(0,0,0,.07);border:1px solid var(--bd);}
+.sc h2{font-size:1.35rem;color:var(--red);margin-bottom:4px;}
+.sc .sub{color:var(--mut);font-size:.87rem;margin-bottom:20px;}
+.stats{display:flex;gap:10px;margin-bottom:20px;}
+.stat{flex:1;background:var(--bg);border-radius:10px;padding:11px;text-align:center;border:1px solid var(--bd);}
+.stat .n{font-size:1.55rem;font-weight:700;color:var(--red);}
+.stat .l{font-size:.69rem;color:var(--mut);margin-top:2px;}
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:18px;}
+.tchip{background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:8px 11px;font-size:.77rem;display:flex;align-items:center;gap:6px;}
+.tchip .dot{width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;}
+
+/* MODE CARDS */
+.sec-lbl{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);margin-bottom:10px;}
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.mcard{background:var(--bg);border:2px solid var(--bd);border-radius:12px;padding:16px 13px;cursor:pointer;transition:all .2s;text-align:center;user-select:none;}
+.mcard:hover{border-color:#bbb;background:#f0eeea;}
+.mcard.sel{border-color:var(--red);background:#fff5f5;}
+.mcard .mi{font-size:1.7rem;margin-bottom:5px;}
+.mcard .mt{font-size:.85rem;font-weight:700;margin-bottom:2px;}
+.mcard .ms{font-size:.73rem;color:var(--mut);}
+
+/* TIMER TOGGLE */
+.ttog{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--bg);border:1px solid var(--bd);border-radius:10px;margin-bottom:16px;cursor:pointer;user-select:none;}
+.sw{width:40px;height:22px;background:#ccc;border-radius:99px;position:relative;flex-shrink:0;transition:background .2s;}
+.sw .knob{width:18px;height:18px;background:#fff;border-radius:50%;position:absolute;top:2px;left:2px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.3);}
+.sw.on{background:var(--red);}
+.sw.on .knob{left:20px;}
+.ttog-txt strong{font-size:.86rem;display:block;}
+.ttog-txt span{font-size:.73rem;color:var(--mut);}
+
+.htitle h1,.sc h2,.sec-lbl{font-family:'Bebas Neue',sans-serif;letter-spacing:.04em;}
+
+.btn{width:100%;background:var(--red);color:#fff;border:none;border-radius:10px;padding:14px;font-size:.92rem;font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s;letter-spacing:.02em;}
+.btn:hover{background:var(--dark);}
+
+/* NAV STRIP */
+#nav-strip-wrap{background:var(--card);border-bottom:1px solid var(--bd);padding:8px 14px;overflow-x:auto;white-space:nowrap;display:none;scrollbar-width:thin;}
+#nav-strip{display:inline-flex;gap:5px;padding:2px 0;}
+.nbox{width:28px;height:28px;border-radius:6px;border:2px solid var(--bd);background:var(--bg);font-size:.68rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;flex-shrink:0;transition:all .15s;line-height:1;}
+.nbox:hover{border-color:#aaa;}
+.nbox.cur{border-color:var(--red);background:var(--red);color:#fff;}
+.nbox.ok{border-color:var(--green);background:var(--gl);color:var(--green);}
+.nbox.ko{border-color:var(--red);background:var(--rl);color:var(--red);}
+.nbox.ok.cur,.nbox.ko.cur{border-width:3px;}
+
+/* QUIZ SCREEN */
+#qs{max-width:700px;margin:18px auto;padding:0 14px 60px;}
+.tlbl{font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);margin-bottom:6px;display:flex;align-items:center;gap:7px;}
+.qnum{font-size:.77rem;color:var(--mut);margin-bottom:10px;font-family:'IBM Plex Mono',monospace;}
+.qcard{background:var(--card);border-radius:14px;padding:24px 22px 20px;box-shadow:0 2px 10px rgba(0,0,0,.07);border:1px solid var(--bd);}
+.qtxt{font-size:.97rem;font-weight:600;line-height:1.55;margin-bottom:18px;}
+.opts{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.ob{width:100%;text-align:left;background:var(--bg);border:2px solid var(--bd);border-radius:9px;padding:12px 15px;font-size:.87rem;cursor:pointer;font-family:inherit;color:var(--txt);transition:border-color .15s,background .15s;line-height:1.4;}
+.ob:hover:not(:disabled){border-color:#aaa;background:#f0eeea;}
+.ob.pending{border-color:var(--blue);background:var(--bll);color:var(--blue);font-weight:600;}
+.ob.ok{background:var(--gl);border-color:var(--green);color:var(--green);font-weight:600;}
+.ob.ko{background:var(--rl);border-color:var(--red);color:var(--red);font-weight:600;text-decoration:line-through;opacity:.8;}
+.ob:disabled{cursor:default;}
+
+/* CONFIRM */
+#conf-btn{margin-top:14px;background:var(--blue);color:#fff;border:none;border-radius:9px;padding:12px 22px;font-size:.88rem;font-weight:700;cursor:pointer;font-family:inherit;display:none;transition:background .2s;}
+#conf-btn:hover{background:#144d87;}
+#conf-btn.show{display:inline-block;}
+
+/* FEEDBACK */
+.fb{margin-top:13px;padding:12px 15px;border-radius:9px;font-size:.84rem;line-height:1.5;display:none;}
+.fb.ok{display:block;background:var(--gl);border:1px solid #a8d5b5;color:#145a2e;}
+.fb.ko{display:block;background:var(--rl);border:1px solid #f5a8b0;color:#7a0e1a;}
+
+/* NAV BUTTONS */
+.nav-btns{display:flex;gap:10px;margin-top:16px;}
+.nbtn{flex:1;background:var(--card);color:var(--txt);border:2px solid var(--bd);border-radius:9px;padding:12px;font-size:.86rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;}
+.nbtn:hover:not(:disabled){border-color:var(--red);color:var(--red);}
+.nbtn:disabled{opacity:.35;cursor:default;}
+.nbtn.prim{background:var(--red);color:#fff;border-color:var(--red);}
+.nbtn.prim:hover:not(:disabled){background:var(--dark);border-color:var(--dark);color:#fff;}
+
+/* UNANSWERED WARNING */
+#unanswered-note{font-size:.78rem;color:var(--mut);margin-top:10px;text-align:center;font-family:'IBM Plex Mono',monospace;display:none;}
+
+/* RESULTS */
+#rs{max-width:700px;margin:20px auto;padding:0 14px 60px;}
+.rhero{background:var(--card);border-radius:16px;padding:28px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.07);border:1px solid var(--bd);margin-bottom:14px;}
+.bsc{font-size:3rem;font-weight:700;color:var(--red);font-family:'IBM Plex Mono',monospace;}
+.bsl{color:var(--mut);font-size:.87rem;margin-top:3px;}
+.time-res{margin-top:10px;font-size:.84rem;color:var(--mut);font-family:'IBM Plex Mono',monospace;}
+.grade{display:inline-block;margin-top:10px;padding:5px 14px;border-radius:99px;font-weight:700;font-size:.88rem;}
+.grade.pass{background:var(--gl);color:var(--green);}
+.grade.warn{background:var(--wl);color:var(--warn);}
+.grade.fail{background:var(--rl);color:var(--red);}
+.rcard{background:var(--card);border-radius:14px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.07);border:1px solid var(--bd);margin-bottom:12px;}
+.rcard h3{font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--red);margin-bottom:12px;}
+.trow{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--bg);}
+.trow:last-child{border-bottom:none;}
+.tname{flex:1;font-size:.83rem;}
+.bwrap{width:100px;height:6px;background:#e0ddd8;border-radius:99px;overflow:hidden;}
+.bfill{height:100%;border-radius:99px;}
+.tsco{font-size:.77rem;font-family:'IBM Plex Mono',monospace;font-weight:600;width:38px;text-align:right;}
+.eitem{background:var(--rl);border:1px solid #f5a8b0;border-radius:9px;padding:12px 14px;margin-bottom:8px;font-size:.83rem;}
+.eq{font-weight:600;color:#7a0e1a;margin-bottom:4px;}
+.ea{color:#145a2e;font-style:italic;}
+.ea::before{content:'✓ ';}
+.skip-item{background:var(--wl);border:1px solid #ffd080;border-radius:9px;padding:10px 14px;margin-bottom:8px;font-size:.83rem;color:var(--warn);}
+.rbtn{width:100%;background:var(--red);color:#fff;border:none;border-radius:10px;padding:14px;font-size:.92rem;font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s;margin-top:16px;}
+.rbtn:hover{background:var(--dark);}
+
+@media(max-width:580px){
+  .tgrid{grid-template-columns:1fr;}
+  .stats{flex-direction:column;}
+  .qcard{padding:16px 12px;}
+  .sc{padding:22px 14px;}
+  .mode-grid{grid-template-columns:1fr;}
+}
+
+/* ── timer riposizionato (header rimosso) ── */
+#timer-box {
+  position: fixed;
+  top: 10px;
+  right: 16px;
+  z-index: 200;
+  background: var(--red) !important;
+  border-color: rgba(255,255,255,.45) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,.25);
+}
+#timer-box.warn  { background: #f57c00 !important; }
+#timer-box.danger{ background: #fff !important; color: var(--red) !important; }
+</style>
+</head>
+<body>
+<div id=&quot;timer-box&quot;>⏱ --:--</div>
+
+
+
+<div id=&quot;pb-wrap&quot; style=&quot;display:none&quot;>
+  <div id=&quot;pb-track&quot;><div id=&quot;pb-fill&quot;></div></div>
+  <span id=&quot;pb-txt&quot;>0/0</span>
+  <span id=&quot;sc-live&quot;>✓ 0</span>
+</div>
+
+<!-- ══════════════════════════════════════════
+     START SCREEN
+══════════════════════════════════════════ -->
+<div id=&quot;start-screen&quot; class=&quot;screen active&quot;>
+<div id=&quot;ss&quot;><div class=&quot;sc&quot;>
+  <h2>Pronto per l'esame?</h2>
+  <p class=&quot;sub&quot;>Scegli la modalità di quiz e le opzioni che preferisci.</p>
+  <div class=&quot;stats&quot;>
+    <div class=&quot;stat&quot;><div class=&quot;n&quot; id=&quot;tot-n&quot;>—</div><div class=&quot;l&quot;>Domande totali</div></div>
+    <div class=&quot;stat&quot;><div class=&quot;n&quot; id=&quot;top-n&quot;>—</div><div class=&quot;l&quot;>Argomenti</div></div>
+  </div>
+  <div class=&quot;tgrid&quot; id=&quot;tgrid&quot;></div>
+
+  <p class=&quot;sec-lbl&quot;>Modalità</p>
+  <div class=&quot;mode-grid&quot;>
+    <div class=&quot;mcard sel&quot; id=&quot;mcard-exam&quot; onclick=&quot;selMode('exam')&quot;>
+      <div class=&quot;mi&quot;>📋</div>
+      <div class=&quot;mt&quot;>Modalità Esame</div>
+      <div class=&quot;ms&quot;>30 domande casuali<br>ripartite per argomento</div>
+    </div>
+    <div class=&quot;mcard&quot; id=&quot;mcard-full&quot; onclick=&quot;selMode('full')&quot;>
+      <div class=&quot;mi&quot;>📚</div>
+      <div class=&quot;mt&quot;>Tutte le Domande</div>
+      <div class=&quot;ms&quot;>184 domande<br>ordine casuale</div>
+    </div>
+  </div>
+
+  <p class=&quot;sec-lbl&quot;>Opzioni</p>
+  <div class=&quot;ttog&quot; onclick=&quot;toggleTimer()&quot;>
+    <div class=&quot;sw on&quot; id=&quot;timer-sw&quot;><div class=&quot;knob&quot;></div></div>
+    <div class=&quot;ttog-txt&quot;>
+      <strong>⏱ Avvia cronometro</strong>
+      <span id=&quot;timer-desc&quot;>Conto alla rovescia: 30 min (modalità esame)</span>
+    </div>
+  </div>
+
+  <button class=&quot;btn&quot; onclick=&quot;startQuiz()&quot;>Inizia il Quiz →</button>
+</div></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     QUIZ SCREEN
+══════════════════════════════════════════ -->
+<div id=&quot;quiz-screen&quot; class=&quot;screen&quot;>
+  <div id=&quot;nav-strip-wrap&quot;><div id=&quot;nav-strip&quot;></div></div>
+  <div id=&quot;qs&quot;>
+    <div class=&quot;tlbl&quot; id=&quot;tlbl&quot;></div>
+    <div class=&quot;qnum&quot; id=&quot;qnum&quot;></div>
+    <div class=&quot;qcard&quot;>
+      <div class=&quot;qtxt&quot; id=&quot;qtxt&quot;></div>
+      <ul class=&quot;opts&quot; id=&quot;opts&quot;></ul>
+      <button id=&quot;conf-btn&quot; onclick=&quot;confirmAnswer()&quot;>✔ Conferma risposta</button>
+      <div class=&quot;fb&quot; id=&quot;fb&quot;></div>
+    </div>
+    <div class=&quot;nav-btns&quot;>
+      <button class=&quot;nbtn&quot; id=&quot;prev-btn&quot; onclick=&quot;navigate(-1)&quot; disabled>← Precedente</button>
+      <button class=&quot;nbtn prim&quot; id=&quot;next-btn&quot; onclick=&quot;navigate(1)&quot;>Successiva →</button>
+    </div>
+    <div id=&quot;unanswered-note&quot;></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     RESULTS SCREEN
+══════════════════════════════════════════ -->
+<div id=&quot;results-screen&quot; class=&quot;screen&quot;>
+<div id=&quot;rs&quot;>
+  <div class=&quot;rhero&quot;>
+    <div class=&quot;bsc&quot; id=&quot;fsc&quot;>—</div>
+    <div class=&quot;bsl&quot;>risposte corrette</div>
+    <div class=&quot;time-res&quot; id=&quot;time-res&quot;></div>
+    <div class=&quot;grade&quot; id=&quot;fgr&quot;>—</div>
+  </div>
+  <div class=&quot;rcard&quot;><h3>Per Argomento</h3><div id=&quot;trr&quot;></div></div>
+  <div class=&quot;rcard&quot; id=&quot;errsec&quot; style=&quot;display:none&quot;>
+    <h3>Domande Sbagliate — Da Ripassare</h3>
+    <div id=&quot;errl&quot;></div>
+  </div>
+  <div class=&quot;rcard&quot; id=&quot;skipsec&quot; style=&quot;display:none&quot;>
+    <h3>Domande Non Risposte</h3>
+    <div id=&quot;skipl&quot;></div>
+  </div>
+  <button class=&quot;rbtn&quot; onclick=&quot;showStart()&quot;>🔄 Torna all'inizio</button>
+</div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════
+// QUESTION BANK — 194 domande, 8 argomenti
+// ════════════════════════════════════════════════
+const Q=[
+// ─── TRAUMA 1 — 16 domande ───────────────────────
+{t:&quot;Trauma&quot;,q:&quot;La colonna vertebrale:&quot;,o:[&quot;Ha funzione di sostegno&quot;,&quot;Ha funzione di protezione&quot;,&quot;Unisce il cranio con le ossa del bacino&quot;,&quot;Le tre precedenti sono tutte vere&quot;],a:3},
+{t:&quot;Trauma&quot;,q:&quot;Che differenza esiste tra una frattura chiusa e una esposta?&quot;,o:[&quot;Nella frattura chiusa l'osso appare rotto solo nelle lastre radiografiche; in quella esposta si può notare la frattura anche solo palpando la parte lesa&quot;,&quot;Nella frattura chiusa la cute che ricopre l'osso rimane integra, mentre in quella esposta si lacera e si può avere infezione&quot;,&quot;Nella frattura chiusa le ossa interessate sono sempre allineate tra loro, mentre in quella esposta possono essere anche disallineate&quot;],a:1},
+{t:&quot;Trauma&quot;,q:&quot;Che differenza c'è fra distorsione e lussazione?&quot;,o:[&quot;Nella distorsione la perdita dei normali rapporti articolari è permanente (se non viene prontamente corretta), nella lussazione è temporanea&quot;,&quot;Nella distorsione si ha la rottura dei legamenti interni, nella lussazione si ha la rottura dei legamenti crociati&quot;,&quot;Nella distorsione la perdita dei normali rapporti articolari è temporanea; nella lussazione è permanente (se non viene prontamente corretta)&quot;],a:2},
+{t:&quot;Trauma&quot;,q:&quot;In caso di sospetta frattura a un arto:&quot;,o:[&quot;Scopro l'arto interessato, valuto la presenza di polso periferico, posiziono una steccobenda e rivaluto la presenza di polso periferico&quot;,&quot;Scopro l'arto interessato, valuto la presenza di polso periferico, effettuo un bendaggio compressivo e rivaluto la presenza di polso periferico&quot;,&quot;Sollevo l'arto del soggetto per facilitare il ritorno venoso e posiziono una steccobenda&quot;],a:0},
+{t:&quot;Trauma&quot;,q:&quot;Dovendo trattare una frattura esposta:&quot;,o:[&quot;Effettuo una trazione fino a fare rientrare l'osso sporgente&quot;,&quot;Tampono la ferita e poi applico una steccobenda&quot;,&quot;Immobilizzo le parti di osso che fuoriescono prima di applicare una steccobenda pulendo e proteggendo la ferita&quot;],a:2},
+{t:&quot;Trauma&quot;,q:&quot;Il midollo spinale:&quot;,o:[&quot;Si estende per tutta la lunghezza della colonna&quot;,&quot;È contenuto nel canale vertebrale&quot;,&quot;Ha funzione di sostegno per tutto il corpo&quot;],a:1,w:true},
+{t:&quot;Trauma&quot;,q:&quot;La commozione cerebrale è:&quot;,o:[&quot;Una lesione cerebrale che provoca alterazione transitoria della funzione cerebrale senza danno evidente al cervello&quot;,&quot;Una raccolta di sangue all'interno della scatola cranica&quot;,&quot;Una lesione cerebrale che provoca un reale danno alle cellule del cervello e che può dare disturbi duraturi&quot;],a:0},
+{t:&quot;Trauma&quot;,q:&quot;La contusione cerebrale è:&quot;,o:[&quot;Una lesione cerebrale che provoca alterazione transitoria della funzione cerebrale senza danno evidente al cervello&quot;,&quot;Una raccolta di sangue all'interno della scatola cranica&quot;,&quot;Una lesione cerebrale che provoca un reale danno alle cellule del cervello e che può dare disturbi duraturi&quot;],a:2},
+{t:&quot;Trauma&quot;,q:&quot;Tra le complicazioni LOCALI delle fratture vi sono:&quot;,o:[&quot;Lesione dei vasi sanguigni e sofferenza delle fibre nervose&quot;,&quot;Shock ipovolemico per abbondante perdita di sangue&quot;,&quot;Esclusivamente rischio di contrarre infezioni&quot;],a:0,w:true},
+{t:&quot;Trauma&quot;,q:&quot;Tra i principali segni di frattura chiusa troviamo:&quot;,o:[&quot;Perdita di coscienza&quot;,&quot;Perdita del profilo anatomico, motilità ridotta o assente, dolore localizzato soprattutto alla pressione&quot;,&quot;Stato di shock&quot;],a:1},
+{t:&quot;Trauma&quot;,q:&quot;Il riallineamento di un arto con sospetta frattura:&quot;,o:[&quot;Non deve mai essere eseguito&quot;,&quot;Deve essere eseguito esclusivamente da due soccorritori esperti&quot;,&quot;Può essere eseguito solo in caso di sospetta frattura scomposta&quot;],a:0,w:true},
+{t:&quot;Trauma&quot;,q:&quot;Sono segni e sintomi di sospetto trauma cranico:&quot;,o:[&quot;Infortunato cosciente che lamenta difficoltà respiratoria&quot;,&quot;Infortunato caduto, disorientato che presenta alterazione della motilità e sensibilità, disturbi di memoria, vomito violento e improvviso&quot;,&quot;Infortunato confuso che lamenta dolore al torace da più di 24 ore&quot;,&quot;Tutte le precedenti&quot;],a:1},
+{t:&quot;Trauma&quot;,q:&quot;Un infortunato con sospetto trauma cranico e/o della colonna deve essere:&quot;,o:[&quot;Messo in PLS se incosciente&quot;,&quot;Lasciato come si trova, immobilizzazione manuale del capo se possibile&quot;,&quot;Messo in posizione semiseduta affinché respiri meglio&quot;],a:1},
+{t:&quot;Trauma&quot;,q:&quot;Dolore, formicolio, intorpidimento e possibile perdita di sensibilità agli arti, possibile impotenza funzionale sono sintomi di:&quot;,o:[&quot;Infarto del miocardio&quot;,&quot;Trauma toracico&quot;,&quot;Trauma vertebrale&quot;],a:2},
+{t:&quot;Trauma&quot;,q:&quot;Lo stato di shock ipovolemico nel soggetto con frattura può insorgere per:&quot;,o:[&quot;Abbondante emorragia in sede di frattura&quot;,&quot;Dolore diffuso&quot;,&quot;Forte spavento del soggetto&quot;],a:0},
+{t:&quot;Trauma&quot;,q:&quot;Cosa si deve fare se si sospetta una frattura della colonna vertebrale?&quot;,o:[&quot;Non si deve procedere allo spostamento se non con tecniche adeguate e solo in caso di necessità&quot;,&quot;Bisogna farsi aiutare da altre due persone e trasportarlo prendendolo uno per le ascelle, uno per i fianchi e uno per le caviglie&quot;,&quot;Bisogna trascinare una persona infortunata fino sopra ad un piano rigido e procedere al trasporto fino all'ospedale più vicino&quot;],a:0},
+// ─── TRAUMA 2 — 26 domande ───────────────────────
+{t:&quot;Trauma&quot;,q:&quot;Subito dopo un incidente stradale i passeggeri con lesioni interne:&quot;,o:[&quot;Presentano sempre sintomi molto gravi&quot;,&quot;Si riconoscono perché hanno sempre qualche frattura&quot;,&quot;Possono presentare sintomi di varia natura o nessun sintomo&quot;],a:2},
+{t:&quot;Trauma&quot;,q:&quot;Il collare cervicale deve essere posizionato:&quot;,o:[&quot;In caso di evento di natura traumatica da due soccorritori&quot;,&quot;In caso di evento di natura traumatica da un solo soccorritore&quot;,&quot;Solo in caso di incidente stradale&quot;],a:0},
+{t:&quot;Trauma&quot;,q:&quot;Un pedone investito:&quot;,o:[&quot;Presenta medesime lesioni sia che si tratti un adulto sia che si tratti di un bambino&quot;,&quot;Avrà le medesime lesioni del conducente di auto&quot;,&quot;Con ogni probabilità presenterà lesioni agli arti inferiori&quot;],a:2},
+{t:&quot;Trauma&quot;,q:&quot;Le metodiche di immobilizzazione della colonna vertebrale servono per:&quot;,o:[&quot;Posizionare il soggetto su una superficie rigida nel caso si dovessero intraprendere le manovre di rianimazione&quot;,&quot;Evitare la comparsa di una lesione del midollo spinale conseguente ad un errato soccorso&quot;,&quot;Trasportare il soggetto più velocemente&quot;],a:1},
+{t:&quot;Trauma&quot;,q:&quot;Valutando uno scenario in cui sia avvenuta una caduta dall'alto è importante osservare:&quot;,o:[&quot;L'altezza da cui il soggetto è caduto&quot;,&quot;Il tipo di superficie su cui si è verificato l'impatto&quot;,&quot;Quale parte del corpo ha urtato per prima&quot;,&quot;Tutti e tre gli aspetti hanno importanza&quot;],a:3},
+{t:&quot;Trauma&quot;,q:&quot;Per sollevare una persona con fratture agli arti conviene adoperare:&quot;,o:[&quot;Il telo portaferiti&quot;,&quot;La barella a cucchiaio e l'asse spinale&quot;,&quot;La sedia cardiologica&quot;],a:1},
+{t:&quot;Trauma&quot;,q:&quot;In una persona precipitata:&quot;,o:[&quot;Le lesioni dipendono dall'altezza e dalla superficie di impatto&quot;,&quot;Le lesioni non dipendono dalla superficie d'impatto&quot;,&quot;Certamente non presenterà lesioni alla colonna&quot;],a:0},
+{t:&quot;Trauma&quot;,q:&quot;Il casco va rimosso:&quot;,o:[&quot;Sempre&quot;,&quot;Solo in presenza di un medico&quot;,&quot;Solo quando le funzioni vitali risultano compromesse&quot;],a:0},
+{t:&quot;Trauma&quot;,q:&quot;La valutazione secondaria viene fatta:&quot;,o:[&quot;Dai piedi alla testa&quot;,&quot;Dalla testa ai piedi&quot;,&quot;Partendo dal torace&quot;,&quot;Solo in un soggetto incosciente&quot;],a:1},
+{t:&quot;Trauma&quot;,q:&quot;In caso di incidente automobilistico con scontro frontale le lesioni più probabili saranno:&quot;,o:[&quot;Infarto&quot;,&quot;Agli arti inferiori ed alla colonna vertebrale&quot;,&quot;Sempre e comunque più gravi di un capottamento&quot;],a:1},
+{t:&quot;Trauma&quot;,q:&quot;Il log-roll deve essere effettuato:&quot;,o:[&quot;Indifferentemente da due o tre soccorritori&quot;,&quot;Per allineare una persona&quot;,&quot;Esclusivamente da tre soccorritori&quot;],a:2},
+{t:&quot;Trauma&quot;,q:&quot;La valutazione della dinamica dell'evento che ha provocato un trauma:&quot;,o:[&quot;Consente di sospettare la maggior parte delle lesioni&quot;,&quot;Ritarda inutilmente l'operato dei soccorritori&quot;,&quot;Non consente di sospettare alcuna lesione&quot;],a:0},
+{t:&quot;Trauma&quot;,q:&quot;Qual è la prima cosa da fare appena giunti sul luogo di un incidente?&quot;,o:[&quot;Valutare la scena e fare autoprotezione&quot;,&quot;Fermare le emorragie importanti&quot;,&quot;Immobilizzare il rachide cervicale e fare l'ABCDE&quot;],a:0},
+{t:&quot;Trauma&quot;,q:&quot;Il punto A dell'ABCDE nel paziente traumatizzato comprende:&quot;,o:[&quot;Valutazione dello scenario&quot;,&quot;Valutazione della pervietà delle vie aeree e immobilizzazione del rachide cervicale&quot;,&quot;Valutazione coscienza e della pervietà delle vie aeree&quot;],a:1},
+{t:&quot;Trauma&quot;,q:&quot;Qual è lo scopo della valutazione secondaria nel paziente traumatizzato?&quot;,o:[&quot;Identificare problemi secondari che possano compromettere la sopravvivenza del paziente (fratture, emorragie ecc.)&quot;,&quot;Rilevare segni e sintomi che possono contribuire alla scelta dell'ospedale adeguato in cui trasportare il paziente&quot;,&quot;Valutare la presenza di una seconda vittima e quali sono le sue lesioni&quot;],a:0},
+{t:&quot;Trauma&quot;,q:&quot;Quale delle seguenti affermazioni è vera circa la stabilizzazione manuale del rachide cervicale:&quot;,o:[&quot;Non è necessaria se è stato messo un collare cervicale&quot;,&quot;Può essere sospesa se l'infortunato è stato posizionato supino sulla barella&quot;,&quot;Deve essere mantenuta fino a quando il capo non è stato fissato a una tavola spinale con apposito castelletto&quot;],a:2},
+{t:&quot;Trauma&quot;,q:&quot;Nel caso in cui non fosse apprezzabile il polso arterioso radiale in un soggetto pallido e agitato, vittima di trauma, si può pensare che:&quot;,o:[&quot;La sua pressione arteriosa sistolica sia inferiore a 80 mmHg&quot;,&quot;Sia da rianimare per evitare un completo arresto cardiaco, anche se cosciente&quot;,&quot;Sia estremamente spaventato&quot;],a:0},
+{t:&quot;Trauma&quot;,q:&quot;Nel caso di persona vittima di evento traumatico, non cosciente, in posizione supina, la prima manovra da effettuare è:&quot;,o:[&quot;Controllo del polso radiale per valutare se è in arresto cardiaco&quot;,&quot;Applicazione del collare cervicale&quot;,&quot;Stabilizzazione manuale della colonna, apertura e controllo delle vie aeree&quot;],a:2},
+{t:&quot;Trauma&quot;,q:&quot;La pervietà delle vie aeree nel paziente traumatizzato non cosciente viene garantita da:&quot;,o:[&quot;Iperestensione del capo e sollevamento della mandibola&quot;,&quot;Sollevamento della mandibola e posizionamento cannula&quot;,&quot;Posizionamento in PLS&quot;],a:1},
+{t:&quot;Trauma&quot;,q:&quot;State trasportando un paziente vittima di incidente stradale. L'uomo è cosciente, parametri nella norma, riferisce dolore alla testa e presenta un ematoma al capo. Come vi comportate durante il trasporto?&quot;,o:[&quot;Data la dinamica vi dirigete il più velocemente possibile in DEA&quot;,&quot;Lo rivalutate frequentemente secondo lo schema ABCDE perché potrebbe potenzialmente peggiorare&quot;,&quot;Mantenete il saturimetro in quanto è l'unico strumento indicatore di un possibile peggioramento&quot;],a:1},
+{t:&quot;Trauma&quot;,q:&quot;Quale dei seguenti è un segno di trauma cranico con danno cerebrale?&quot;,o:[&quot;Alterazione dello stato mentale&quot;,&quot;Vomito violento ed improvviso&quot;,&quot;Differenza fra i diametri pupillari (anisocoria)&quot;,&quot;Tutti i precedenti&quot;],a:3},
+{t:&quot;Trauma&quot;,q:&quot;Qual è la posizione corretta per una vittima che mostri segni di un grave trauma cranico?&quot;,o:[&quot;Gambe sollevate in posizione anti-shock&quot;,&quot;Testa e spalle leggermente sollevate rispetto al piano del corpo e con il capo iperesteso&quot;,&quot;In posizione supina&quot;],a:2},
+{t:&quot;Trauma&quot;,q:&quot;In un paziente con trauma cranico ed otorragia sinistra qual è il comportamento più idoneo tra quelli elencati?&quot;,o:[&quot;Posizionarlo supino con gli arti rialzati di 30 gradi per contrastare un'eventuale ipotensione derivante dall'otorragia&quot;,&quot;Posizionarlo supino e immobilizzare il capo con un collare cervicale senza tentare di arrestare la fuoriuscita di sangue dal canale uditivo&quot;,&quot;Posizionarlo supino, immobilizzare il capo con un collare cervicale e inserire un tampone nell'orecchio per fermare il sangue&quot;],a:1},
+{t:&quot;Trauma&quot;,q:&quot;Nell'immobilizzazione su asse spinale i cuscini fermacapo si posizionano prima di fissare le cinghie (il 'ragno')?&quot;,o:[&quot;No, si posizionano dopo aver terminato il cinghiaggio&quot;,&quot;Sì, devono essere posizionate subito appena trasferito il paziente dalla barella a cucchiaio&quot;,&quot;È ininfluente posizionarli prima o dopo&quot;],a:0},
+{t:&quot;Trauma&quot;,q:&quot;Nel caso di frattura costale esposta con pneumotorace ('ferita soffiante') la medicazione deve essere:&quot;,o:[&quot;Compressione diretta&quot;,&quot;Medicazione occlusiva chiusa su tre lati&quot;,&quot;Fasciatura compressiva&quot;],a:1},
+{t:&quot;Trauma&quot;,q:&quot;I principali segni e sintomi suggestivi di lesione midollare sono:&quot;,o:[&quot;Dolore spontaneo, contrattura muscolare di difesa, irregolarità del profilo della colonna&quot;,&quot;Dolore circoscritto alla zona di lesione, molto violento in caso di movimenti&quot;,&quot;Nessuna delle precedenti&quot;],a:0},
+// ─── RESPIRATORIO / RCP — 41 domande ─────────────
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;In una persona incosciente:&quot;,o:[&quot;L'epiglottide funziona correttamente&quot;,&quot;La deglutizione è sempre correttamente controllata&quot;,&quot;L'epiglottide non assolve più la sua funzione&quot;],a:2},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;Il 'triangolo della vita' è formato dai seguenti organi del corpo:&quot;,o:[&quot;Cervello, cuore, reni&quot;,&quot;Cervello, cuore, polmoni&quot;,&quot;Polmoni, stomaco, reni&quot;],a:1},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;In una persona adulta la normale frequenza respiratoria è:&quot;,o:[&quot;Inferiore a 12 atti / minuto&quot;,&quot;Compresa tra 12-16 atti / minuto&quot;,&quot;Superiore a 16 atti / minuto&quot;],a:1},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;La quantità di ossigeno è:&quot;,o:[&quot;Maggiore nell'aria espirata&quot;,&quot;Maggiore nell'aria inspirata&quot;,&quot;Il 78% nell'atmosfera&quot;],a:1},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;Ti accorgi che una persona ha ingoiato una caramella e fatica a respirare. Come ti comporti:&quot;,o:[&quot;Pratichi la manovra di Heimlich&quot;,&quot;Somministri ossigeno perché così la respirazione può migliorare&quot;,&quot;Incoraggi il soggetto a tossire senza interferire con i tentativi di espulsione&quot;],a:2},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;Che cos'è la manovra di Heimlich?&quot;,o:[&quot;La manovra utile per svuotare i polmoni dall'acqua in caso di annegamento&quot;,&quot;Una delle manovre utili per la rimozione dei corpi estranei nelle vie respiratorie&quot;,&quot;La manovra da applicarsi in caso di emorragia interna&quot;],a:1},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;Il cuore è:&quot;,o:[&quot;Un organo muscolare cavo situato alla sinistra del torace&quot;,&quot;Un organo muscolare formato da due cavità principali&quot;,&quot;Un organo muscolare cavo situato al centro del torace con la punta rivolta verso sinistra&quot;],a:2},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;In caso di arresto respiratorio primario:&quot;,o:[&quot;Il cuore smette immediatamente di funzionare&quot;,&quot;Si ha perdita di coscienza nel giro di pochi secondi&quot;,&quot;Il cuore continua a pompare sangue per 7-8 minuti prima di andare in arresto&quot;],a:2},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;Qual è la posizione consigliata per un paziente con dolore toracico e/o difficoltà respiratoria?&quot;,o:[&quot;Supina&quot;,&quot;Anti-shock&quot;,&quot;Semiseduto&quot;],a:2},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;Perché in un asfittico il viso è pallido e le labbra sono bluastre?&quot;,o:[&quot;Perché è caduta la lingua&quot;,&quot;Perché il sangue non è più ossigenato&quot;,&quot;Perché il sangue non circola&quot;],a:1},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;In una persona adulta la normale frequenza cardiaca è:&quot;,o:[&quot;Inferiore a 60 atti / minuto&quot;,&quot;Superiore a 90 atti / minuto&quot;,&quot;Compresa tra 60-90 atti / minuto&quot;],a:2},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;La respirazione permette di:&quot;,o:[&quot;Eliminare anidride carbonica e ossigeno&quot;,&quot;Eliminare anidride carbonica e scorie del metabolismo&quot;,&quot;Eliminare anidride carbonica e assumere ossigeno&quot;],a:2},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;L'obiettivo del B.L.S. è:&quot;,o:[&quot;Insufflare ossigeno ai polmoni&quot;,&quot;Rendere normale l'attività cardiaca&quot;,&quot;Ossigenare artificialmente cervello e cuore&quot;],a:2},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;La Posizione Laterale di Sicurezza si usa in caso di:&quot;,o:[&quot;Paziente incosciente che respira&quot;,&quot;Paziente cosciente che avverte la necessità di vomitare&quot;,&quot;Paziente incosciente che non respira&quot;],a:0},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;Di fronte ad un soggetto apparentemente inanimato, la prima cosa da fare è:&quot;,o:[&quot;Effettuare la manovra del G.A.S.&quot;,&quot;Chiamarlo e scuoterlo&quot;,&quot;Posizionarlo in P.L.S.&quot;],a:1},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;Quali delle seguenti ipotesi può essere considerata una complicanza nella valutazione di B?&quot;,o:[&quot;L'ostruzione della trachea&quot;,&quot;Una frattura esposta ad un braccio&quot;,&quot;Un arresto cardiaco&quot;],a:0},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;Durante una R.A. come posso verificare l'efficacia delle insufflazioni?&quot;,o:[&quot;Verifico l'espansione toracica&quot;,&quot;Il soggetto riprende colorito grazie all'ossigeno erogato&quot;,&quot;La cannula orofaringea rimane posizionata correttamente&quot;],a:0},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;Valutata la condizione di incoscienza e l'assenza di respiro, come comincerò la R.C.P.?&quot;,o:[&quot;Con 30 compressioni toraciche esterne&quot;,&quot;Con 5 insufflazioni&quot;,&quot;Con 2 insufflazioni&quot;],a:0},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;Qual è il ritmo della R.C.P. in un paziente adulto?&quot;,o:[&quot;15 compressioni toraciche e 2 insufflazioni&quot;,&quot;30 compressioni toraciche e 1 insufflazione&quot;,&quot;30 compressioni toraciche e 2 insufflazioni&quot;],a:2},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;Quali sono le funzioni vitali?&quot;,o:[&quot;Pupille non dilatate, respiro e battito&quot;,&quot;Colorito della pelle, respiro e battito&quot;,&quot;Lo stato di coscienza, l'attività respiratoria, l'attività cardiaca&quot;],a:2},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;La rianimazione cardio-polmonare deve essere iniziata:&quot;,o:[&quot;Sempre in soggetto incosciente e che non respira&quot;,&quot;Quando ci sono concrete possibilità di salvare una persona&quot;,&quot;Solo su autorizzazione della CO118&quot;],a:0},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;L'ABC si pratica:&quot;,o:[&quot;Solo su soggetti in arresto cardiaco&quot;,&quot;Solo su soggetti non coscienti&quot;,&quot;Su tutti i soggetti&quot;],a:2},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;Quando si può sospendere la manovra di R.C.P.?&quot;,o:[&quot;Quando presumo che il soggetto sia morto&quot;,&quot;In presenza di soccorso avanzato o di un medico&quot;,&quot;In seguito alla rottura di alcune costole&quot;],a:1},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;Perché non bisogna mai somministrare bevande ad un infortunato incosciente?&quot;,o:[&quot;Perché il liquido, giunto nello stomaco, produce degli spasmi nocivi per l'infortunato&quot;,&quot;Perché la bevanda determina la secrezione di succhi gastrici i quali, se il paziente non è cosciente, risultano dannosi&quot;,&quot;Perché mancando la giusta reazione dei muscoli della lingua e dell'epiglottide, la bevanda potrebbe provocare soffocamento&quot;],a:2},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;Dovendo posizionare una donna incinta in P.L.S., su quale lato la ruoto?&quot;,o:[&quot;Sul lato destro&quot;,&quot;Sul lato sinistro&quot;,&quot;Su una donna incinta non si applica la P.L.S. ma la si mette in posizione anti-shock&quot;],a:1},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;In quale dei seguenti casi posso sospettare un infarto del miocardio?&quot;,o:[&quot;Viso pallido, respirazione lenta, battito cardiaco rallentato, estremità intorpidite con formicolio e dolore&quot;,&quot;Viso cianotico, respiro affannato, battito cardiaco rallentato, aumento della temperatura corporea&quot;,&quot;Viso pallido terreo, respiro affannato, dolore retrosternale costrittivo e prolungato, nausea, vomito, sudorazione fredda, dolore alle braccia irradiato al collo&quot;],a:2},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;In caso di sospetta ostruzione completa delle vie aeree in adulto/bambino cosciente, come mi comporto?&quot;,o:[&quot;Faccio tossire il soggetto fino all'espulsione del corpo estraneo o alla perdita di coscienza prima di eseguire la manovra di Heimlich&quot;,&quot;Eseguo immediatamente e senza indugio la manovra di Heimlich&quot;,&quot;Alterno 5 colpi tra le scapole e 5 compressioni addominali (manovra di Heimlich) fino all'espulsione del corpo estraneo o alla perdita di coscienza&quot;],a:2},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;In caso di sospetta ostruzione completa delle vie aeree in un adulto/bambino INCOSCIENTE, come mi comporto?&quot;,o:[&quot;Eseguo le compressioni toraciche esterne e poi continuo con 2 insufflazioni&quot;,&quot;Eseguo immediatamente e senza indugio la manovra di Heimlich&quot;,&quot;Eseguo le sole compressioni addominali con il paziente in posizione supina&quot;],a:0,w:true},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;In caso di sospetta ostruzione completa delle vie aeree in un LATTANTE cosciente, come mi comporto?&quot;,o:[&quot;Eseguo immediatamente e senza indugio la manovra di Heimlich&quot;,&quot;Alterno 5 colpi tra le scapole e 5 compressioni toraciche fino all'espulsione del corpo estraneo o alla perdita di coscienza&quot;,&quot;Alterno 5 colpi tra le scapole e 5 compressioni addominali (manovra di Heimlich) fino all'espulsione del corpo estraneo o alla perdita di coscienza&quot;],a:1,w:true},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;In caso di sospetta ostruzione completa delle vie aeree in un LATTANTE incosciente, come mi comporto?&quot;,o:[&quot;Eseguo la RCP cominciando con le 5 insufflazioni&quot;,&quot;Eseguo la RCP cominciando con le compressioni toraciche&quot;,&quot;Eseguo immediatamente e senza indugio la manovra di Heimlich&quot;],a:0},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;L'angina pectoris si differenzia dall'infarto miocardico acuto perché:&quot;,o:[&quot;È meno dolorosa dell'infarto miocardico&quot;,&quot;È una condizione cronica caratterizzata da eventi di breve durata ma frequenti&quot;,&quot;È dovuta all'accumulo di liquido in eccesso&quot;],a:1},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;Qual è la causa scatenante un infarto?&quot;,o:[&quot;Una ostruzione delle vene coronarie&quot;,&quot;Una ostruzione delle arterie coronarie&quot;,&quot;Un malfunzionamento della valvola che separa atrio da ventricolo&quot;],a:1},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;Per soccorrere una persona apparentemente incosciente in una cantina chiusa, come mi devo comportare?&quot;,o:[&quot;Effettuare autoprotezione facendosi assistere da qualcuno, introdursi nel locale e trasportare l'infortunato all'aria aperta&quot;,&quot;Introdursi nel locale senza indugiare in quanto l'infortunato potrebbe essere in pericolo di vita&quot;,&quot;Attendere l'arrivo del soccorso qualificato ed eventualmente dei Vigili del Fuoco prima di compiere qualsiasi azione&quot;],a:2},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;La cannula orofaringea serve per:&quot;,o:[&quot;Soggetti colpiti da infarto&quot;,&quot;Soggetti in stato di shock&quot;,&quot;Tutti i soggetti incoscienti e privi di respiro&quot;],a:2},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;Come si misura la cannula orofaringea?&quot;,o:[&quot;Dall'angolo della bocca all'angolo dell'occhio&quot;,&quot;Dall'angolo della bocca al lobo dell'orecchio&quot;,&quot;Dall'arcata mandibolare al pomo d'Adamo&quot;],a:1},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;L'aspiratore serve:&quot;,o:[&quot;Per la pratica del massaggio cardiaco&quot;,&quot;Ad insufflare ossigeno nei polmoni&quot;,&quot;Ad asportare sangue e/o vomito dalla bocca&quot;],a:2},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;Le vene sono vasi che:&quot;,o:[&quot;Contengono sempre sangue ricco di anidride carbonica&quot;,&quot;Portano sangue in uscita dal cuore verso la periferia&quot;,&quot;Portano sangue di ritorno dalla periferia al cuore&quot;],a:2},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;Le arterie sono vasi che:&quot;,o:[&quot;Contengono sempre sangue ossigenato&quot;,&quot;Portano sangue in uscita dal cuore verso la periferia&quot;,&quot;Portano sangue di ritorno dalla periferia al cuore&quot;],a:1},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;Sono polsi centrali:&quot;,o:[&quot;Il polso radiale ed il polso femorale&quot;,&quot;Quelli più lontani dal cuore&quot;,&quot;Il polso femorale ed il polso carotideo&quot;],a:2},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;AVPU: a quale lettera corrisponde la condizione di risposta solo a stimoli dolorosi?&quot;,o:[&quot;A&quot;,&quot;V&quot;,&quot;P&quot;,&quot;U&quot;],a:2},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;Rientrando da un servizio ordinario mi trovo a transitare sul luogo di un incidente, come mi comporto?&quot;,o:[&quot;Verifico qual è il soggetto più grave e comincio a soccorrerlo, un altro passante chiamerà il 112&quot;,&quot;Allerto il 112 e attendo sul posto l'arrivo di un mezzo di emergenza prima di rientrare in sede&quot;,&quot;Verifico le condizioni di tutti i soggetti coinvolti e poi allerto il 112 per l'invio dei mezzi necessari&quot;],a:2},
+{t:&quot;Respiratorio / RCP&quot;,q:&quot;Qual è il presidio più indicato per somministrare ossigeno a un paziente in evidente difficoltà respiratoria in un soccorso pre-ospedaliero?&quot;,o:[&quot;Gli 'occhialini'&quot;,&quot;La mascherina con reservoir&quot;,&quot;La mascherina senza reservoir&quot;],a:1},
+// ─── EMORRAGIE / SHOCK / DIALISI — 22 domande ────
+{t:&quot;Emorragie / Shock / Dialisi&quot;,q:&quot;Dovendo arrestare un'emorragia esterna, si ricorrerà come prima tecnica a:&quot;,o:[&quot;Sollevamento dell'arto ferito&quot;,&quot;Compressione diretta sulla ferita&quot;,&quot;Azione sui punti di compressione a distanza&quot;],a:1},
+{t:&quot;Emorragie / Shock / Dialisi&quot;,q:&quot;In caso di epistassi si dovrà:&quot;,o:[&quot;Portare il capo del soggetto in avanti, chiudere la narice sanguinante e applicare il ghiaccio istantaneo sulla fronte (radice del naso)&quot;,&quot;Applicare il ghiaccio istantaneo sulla nuca&quot;,&quot;Applicare un tampone di garza nel naso per arrestare la fuoriuscita di sangue&quot;,&quot;Nessuna delle precedenti è corretta&quot;],a:0},
+{t:&quot;Emorragie / Shock / Dialisi&quot;,q:&quot;Tra i segni di emorragia interna si può avere:&quot;,o:[&quot;Polso piccolo e frequente, respiro superficiale, cute e mucose pallide e fredde&quot;,&quot;Ipertensione, cute rossa e calda, svenimento&quot;,&quot;Deviazione di occhi e bocca&quot;],a:0},
+{t:&quot;Emorragie / Shock / Dialisi&quot;,q:&quot;Dovendo trasportare un soggetto che presenta sintomi di emottisi, in quale posizione è consigliabile effettuare il trasporto?&quot;,o:[&quot;Supino&quot;,&quot;Prono&quot;,&quot;Semiseduto&quot;,&quot;Posizione antishock&quot;],a:2,w:true},
+{t:&quot;Emorragie / Shock / Dialisi&quot;,q:&quot;Un'emorragia interna può essere provocata da:&quot;,o:[&quot;Solo eventi di natura traumatica&quot;,&quot;Solo eventi di natura medica&quot;,&quot;Solo incidenti stradali&quot;,&quot;Eventi di natura traumatica e medica&quot;],a:3},
+{t:&quot;Emorragie / Shock / Dialisi&quot;,q:&quot;In caso di otorragia:&quot;,o:[&quot;Si deve introdurre un tampone nell'orecchio per arrestare l'emorragia&quot;,&quot;Si deve favorire la fuoriuscita di sangue e liquidi dall'orecchio&quot;,&quot;Si deve applicare ghiaccio sulla nuca&quot;],a:1},
+{t:&quot;Emorragie / Shock / Dialisi&quot;,q:&quot;In caso di sospetta emorragia interna il soggetto va posizionato in:&quot;,o:[&quot;P.L.S.&quot;,&quot;Posizione semiseduta&quot;,&quot;Posizione anti-shock&quot;,&quot;Indifferentemente una delle precedenti&quot;],a:2},
+{t:&quot;Emorragie / Shock / Dialisi&quot;,q:&quot;In quale dei seguenti casi è necessario applicare un laccio emostatico arterioso?&quot;,o:[&quot;Emorragia venosa alla gamba&quot;,&quot;Schiacciamento di un arto da 6/8 ore&quot;,&quot;Amputazione di una mano&quot;],a:1},
+{t:&quot;Emorragie / Shock / Dialisi&quot;,q:&quot;Per conservare correttamente una parte amputata:&quot;,o:[&quot;Deve essere riposta a diretto contatto con ghiaccio&quot;,&quot;Deve essere innanzitutto posta in una busta sterile e sigillata poi posta a contatto con acqua e ghiaccio&quot;,&quot;Deve essere immersa in acqua fredda&quot;],a:1},
+{t:&quot;Emorragie / Shock / Dialisi&quot;,q:&quot;Il sollevamento dell'arto per arrestare una emorragia, può essere effettuato:&quot;,o:[&quot;Sempre&quot;,&quot;Solo in assenza di lesioni osteo-articolari&quot;,&quot;Solo in caso di emorragia lieve&quot;],a:1},
+{t:&quot;Emorragie / Shock / Dialisi&quot;,q:&quot;Eseguendo la tecnica della compressione diretta, a contatto con la ferita si dovrà porre:&quot;,o:[&quot;Uno strato di garze sterili&quot;,&quot;Un tampone di garze non sterili&quot;,&quot;Un tampone di cotone&quot;],a:0},
+{t:&quot;Emorragie / Shock / Dialisi&quot;,q:&quot;Definisci lo stato di shock:&quot;,o:[&quot;Sindrome dovuta alla diminuzione di sangue ai tessuti e alle cellule&quot;,&quot;La reazione dovuta ad uno spavento&quot;,&quot;Eccessivo arrivo di sangue ai polmoni&quot;],a:0},
+{t:&quot;Emorragie / Shock / Dialisi&quot;,q:&quot;Trasportando un paziente dializzato, ti accorgi che perde sangue dalla fistola artero-venosa (emorragia NON abbondante), lui rimane cosciente. Cosa fai?&quot;,o:[&quot;Chiamo il 112, valuto il paziente secondo lo schema ABC, applico una compressione manuale o un bendaggio compressivo e tranquillizzo il paziente&quot;,&quot;Valuto il paziente secondo lo schema ABC, applico un laccio emostatico arterioso e tranquillizzo il paziente&quot;,&quot;Valuto il paziente secondo lo schema ABC, applico una compressione manuale o un bendaggio compressivo e tranquillizzo il paziente. Torno al centro dialisi&quot;],a:2},
+{t:&quot;Emorragie / Shock / Dialisi&quot;,q:&quot;Quali sono i rischi evolutivi sanitari di un paziente durante il trasporto PRE-dialisi?&quot;,o:[&quot;Mal di testa, nausea e vomito&quot;,&quot;Ipotensione, collasso cardiocircolatorio e crampi muscolari&quot;,&quot;Sete intensa, difficoltà di concentrazione, difficoltà respiratoria&quot;],a:2},
+{t:&quot;Emorragie / Shock / Dialisi&quot;,q:&quot;Quali sono i rischi evolutivi sanitari di un paziente durante il trasporto POST-dialisi?&quot;,o:[&quot;Mal di testa, nausea e vomito&quot;,&quot;Astenia e afonia, ipotensione, emorragia della fistola a/v&quot;,&quot;Sete intensa, difficoltà di concentrazione, difficoltà respiratoria&quot;],a:1},
+{t:&quot;Emorragie / Shock / Dialisi&quot;,q:&quot;Stai trasportando una persona quando improvvisamente perde conoscenza, cosa fai?&quot;,o:[&quot;Proseguo con il trasporto fino all'ospedale più vicino, attivando i dispositivi di emergenza&quot;,&quot;Fermo il veicolo, eseguo ABC, attivo il 112 ed eseguo, se necessario, la RCP&quot;,&quot;Inizio con le manovre rianimatorie fino alla comparsa di segni di circolo&quot;],a:1},
+{t:&quot;Emorragie / Shock / Dialisi&quot;,q:&quot;La fistola artero-venosa è una condizione presente nel paziente che:&quot;,o:[&quot;Effettua cicli di chemioterapia&quot;,&quot;Effettua cicli di radioterapia&quot;,&quot;Effettua cicli di emodialisi&quot;,&quot;Effettua cicli di dialisi peritoneale&quot;],a:2},
+{t:&quot;Emorragie / Shock / Dialisi&quot;,q:&quot;L'iperglicemia si manifesta quando:&quot;,o:[&quot;Lo zucchero nel sangue è in quantità elevate in seguito a mancata somministrazione di insulina&quot;,&quot;Lo zucchero nel sangue scarseggia in seguito a digiuno prolungato&quot;,&quot;Lo zucchero nel sangue è in quantità elevate in seguito a elevata somministrazione di insulina&quot;],a:0},
+{t:&quot;Emorragie / Shock / Dialisi&quot;,q:&quot;Quali sono le possibili cause di Ictus?&quot;,o:[&quot;Emorragia o occlusione di un vaso nel cervello&quot;,&quot;Sindrome da scuotimento&quot;,&quot;Dolore toracico&quot;],a:0},
+{t:&quot;Emorragie / Shock / Dialisi&quot;,q:&quot;In caso di epilessia con GRANDE MALE, cosa non va MAI fatto?&quot;,o:[&quot;Spostare oggetti che possono ledere il soggetto&quot;,&quot;Proteggere la testa del soggetto con un cuscino&quot;,&quot;Cinghiare il soggetto sulla barella affinché stia fermo e non cada&quot;,&quot;Nulla di tutto quello sopra elencato va fatto&quot;],a:2},
+{t:&quot;Emorragie / Shock / Dialisi&quot;,q:&quot;AVPU: un paziente che risponde solo a stimoli vocali è?&quot;,o:[&quot;A&quot;,&quot;V&quot;,&quot;P&quot;,&quot;U&quot;],a:1},
+{t:&quot;Emorragie / Shock / Dialisi&quot;,q:&quot;Si considera una emorragia grave:&quot;,o:[&quot;Emorragia venosa&quot;,&quot;Emorragia arteriosa&quot;,&quot;Emorragia capillare&quot;],a:1},
+// ─── FERITE &amp; USTIONI — 20 domande ───────────────
+{t:&quot;Ferite &amp; Ustioni&quot;,q:&quot;In caso di ferita con corpo estraneo ancora conficcato, come mi comporto?&quot;,o:[&quot;Rimuovo il corpo estraneo e mi preparo a tamponare eventuali emorragie&quot;,&quot;Posiziono un laccio emostatico a monte della ferita, rimuovo il corpo estraneo, copro con garze sterili ed ospedalìzzo&quot;,&quot;Immobilizzo il corpo estraneo e copro con garza/telo sterile&quot;],a:2},
+{t:&quot;Ferite &amp; Ustioni&quot;,q:&quot;In caso di corpo estraneo nell'occhio, come mi comporto?&quot;,o:[&quot;Copro entrambi gli occhi con garza sterile&quot;,&quot;Rimuovo il corpo estraneo&quot;,&quot;Chiedo al soggetto di chiudere l'occhio interessato per evitare infezioni&quot;],a:0},
+{t:&quot;Ferite &amp; Ustioni&quot;,q:&quot;In caso di ferita, come mi comporto?&quot;,o:[&quot;Lavo con acqua corrente o soluzione fisiologica, applico una garza sterile ed eseguo un bendaggio compressivo nel caso in cui vi sia emorragia&quot;,&quot;Disinfetto la ferita con alcool e copro con garza sterile&quot;,&quot;Copro con garza sterile e applico solo ghiaccio&quot;],a:0},
+{t:&quot;Ferite &amp; Ustioni&quot;,q:&quot;Il tetano è:&quot;,o:[&quot;Una forma di vaccinazione&quot;,&quot;Un irrigidimento dei muscoli facciali&quot;,&quot;Un'infezione provocata dalla penetrazione di un bacillo sporigeno attraverso una lesione della cute&quot;],a:2},
+{t:&quot;Ferite &amp; Ustioni&quot;,q:&quot;In caso di ferita ed emorragia posso utilizzare il ghiaccio?&quot;,o:[&quot;Sì poiché è un vasocostrittore&quot;,&quot;No, il ghiaccio rischierebbe di rallentare il flusso sanguigno con conseguente necrosi dei tessuti&quot;,&quot;Solo se la ferita è lacero-contusa per evitare il formarsi di ematomi&quot;],a:0,w:true},
+{t:&quot;Ferite &amp; Ustioni&quot;,q:&quot;Una ferita vicino agli occhi la pulisci con:&quot;,o:[&quot;Acqua ossigenata&quot;,&quot;Acqua corrente o soluzione fisiologica&quot;,&quot;Alcool&quot;],a:1},
+{t:&quot;Ferite &amp; Ustioni&quot;,q:&quot;In caso di ferita aperta all'addome con eviscerazione, il comportamento più opportuno è:&quot;,o:[&quot;Tentare di riposizionare i visceri, coprire con medicazione sterile&quot;,&quot;Comprimere i visceri per ridurre il sanguinamento&quot;,&quot;Non tentare di riposizionare i visceri, coprire con garze/telini sterili&quot;],a:2},
+{t:&quot;Ferite &amp; Ustioni&quot;,q:&quot;In caso di corpo estraneo nell'orecchio come mi comporto?&quot;,o:[&quot;Posiziono una garza sterile esternamente all'orecchio per evitare eventuali infezioni&quot;,&quot;Immobilizzo il soggetto su asse spinale per effettuare il trasporto senza muovere il capo&quot;,&quot;Rimuovo il corpo estraneo&quot;],a:0},
+{t:&quot;Ferite &amp; Ustioni&quot;,q:&quot;La regola del nove serve a:&quot;,o:[&quot;Valutare l'estensione di una ferita&quot;,&quot;Valutare l'estensione di un'ustione&quot;,&quot;Valutare la superficie corporea traumatizzata&quot;],a:1},
+{t:&quot;Ferite &amp; Ustioni&quot;,q:&quot;La gravità di un'ustione si determina:&quot;,o:[&quot;In base all'estensione e alla profondità&quot;,&quot;In base al grado&quot;,&quot;Nessuna delle precedenti è esatta&quot;],a:0},
+{t:&quot;Ferite &amp; Ustioni&quot;,q:&quot;Come tratto un soggetto ustionato?&quot;,o:[&quot;Tolgo i vestiti a diretto contatto con la pelle per evitare il continuo senso di calore al soggetto&quot;,&quot;Distribuisco sulla parte ustionata una pomata specifica che eviti la comparsa di flittene&quot;,&quot;Allontano la fonte di ustione, rimuovo solo i vestiti superficiali e non adesi alla cute, bagno con abbondante acqua/soluzione fisiologica, copro con telino sterile&quot;],a:2},
+{t:&quot;Ferite &amp; Ustioni&quot;,q:&quot;In caso di ustione riguardante il 50% della superficie del corpo, che tipo di shock devo prevedere?&quot;,o:[&quot;Ipovolemico&quot;,&quot;Distributivo&quot;,&quot;Cardiogeno&quot;],a:0},
+{t:&quot;Ferite &amp; Ustioni&quot;,q:&quot;Una ustione che interessa la cute in tutto il suo spessore e il tessuto sottocutaneo si considera di:&quot;,o:[&quot;Primo grado&quot;,&quot;Secondo grado&quot;,&quot;Terzo grado&quot;],a:2},
+{t:&quot;Ferite &amp; Ustioni&quot;,q:&quot;Si considera ustione grave quando:&quot;,o:[&quot;L'ustione di primo grado interessa più del 75% di superficie corporea&quot;,&quot;L'ustione di primo grado interessa più del 30% di superficie corporea&quot;,&quot;L'ustione di primo grado interessa il volto&quot;],a:0},
+{t:&quot;Ferite &amp; Ustioni&quot;,q:&quot;Quali sono le complicanze di una ustione?&quot;,o:[&quot;Esclusivamente insufficienza respiratoria per inalazione di fumi&quot;,&quot;Insufficienza respiratoria, danno multiorgano, shock ipovolemico e infezione&quot;,&quot;Non vi sono complicanze a meno che non si tratti di una ustione di terzo grado&quot;],a:1},
+{t:&quot;Ferite &amp; Ustioni&quot;,q:&quot;Per rimuovere la calce secca come elemento ustionante come mi comporto?&quot;,o:[&quot;Lavo abbondantemente con acqua per rimuovere tutta la calce&quot;,&quot;Rimuovo la sostanza dalla pelle e dagli abiti spazzolando&quot;,&quot;Avvolgo la parte interessata con un telino sterile bagnato&quot;],a:1},
+{t:&quot;Ferite &amp; Ustioni&quot;,q:&quot;La persona vittima di una folgorazione quale segno NON presenta?&quot;,o:[&quot;Ustioni nel punto di entrata e di uscita dell'energia elettrica nell'organismo&quot;,&quot;Ipotermia&quot;,&quot;Battito cardiaco irregolare o arresto cardiaco&quot;,&quot;Difficoltà respiratoria o arresto respiratorio&quot;],a:1},
+{t:&quot;Ferite &amp; Ustioni&quot;,q:&quot;Nel soccorso ad un paziente colpito da una scarica elettrica:&quot;,o:[&quot;Si deve verificare che la scena sia sicura e non ci siano contatti elettrici&quot;,&quot;Si valuta subito il paziente perché i guanti servono da isolante&quot;,&quot;Si rianima il paziente con materiali che non conducono elettricità, cannule, pallone autoespansibile&quot;],a:0},
+{t:&quot;Ferite &amp; Ustioni&quot;,q:&quot;Come mi comporto in caso di congelamento?&quot;,o:[&quot;Somministro bevande calde e riscaldo la parte congelata massaggiandola con le mani&quot;,&quot;Porto la persona in ambiente caldo e asciutto, elimino gli indumenti freddi o umidi e copro con indumenti o coperte asciutte&quot;,&quot;Porto la persona in ambiente caldo e asciutto e somministro acqua e zucchero&quot;],a:1},
+{t:&quot;Ferite &amp; Ustioni&quot;,q:&quot;Temperatura corporea elevata, cute calda e secca, scarsa sudorazione, polso rapido e respiro accelerato sono sintomi iniziali di:&quot;,o:[&quot;Infarto del miocardio&quot;,&quot;Collasso da calore&quot;,&quot;Colpo di calore&quot;,&quot;Edema polmonare&quot;],a:2},
+// ─── VARIE — PRESIDI &amp; POSIZIONI — 18 domande ────
+{t:&quot;Varie — Presidi &amp; Posizioni&quot;,q:&quot;Una persona che risponde solo a stimoli dolorosi e non fa in maniera coordinata quello che gli chiedete di fare è:&quot;,o:[&quot;Non cosciente&quot;,&quot;Confuso, A secondo la scala AVPU&quot;,&quot;Confuso, P secondo la scala AVPU&quot;,&quot;Confuso, V secondo la scala AVPU&quot;],a:2},
+{t:&quot;Varie — Presidi &amp; Posizioni&quot;,q:&quot;L'angina pectoris si differenzia dall'infarto miocardico acuto perché solitamente il dolore:&quot;,o:[&quot;Si presenta in una sede diversa&quot;,&quot;Non dura a lungo ma si ripresenta frequentemente&quot;,&quot;Dura a lungo e non è frequente come nell'infarto miocardico&quot;],a:1},
+{t:&quot;Varie — Presidi &amp; Posizioni&quot;,q:&quot;Il paziente lamenta nausea durante il trasporto, cosa fai?&quot;,o:[&quot;Abbasso lo schienale, gli dico di non preoccuparsi perché poi passa&quot;,&quot;Preparo un telo assorbente o un sacchetto e lo metto in posizione semiseduta&quot;,&quot;Gli dico di resistere fino all'arrivo in ospedale&quot;],a:1},
+{t:&quot;Varie — Presidi &amp; Posizioni&quot;,q:&quot;Il paziente sofferente per dolori al torace in quale posizione deve essere trasportato preferibilmente?&quot;,o:[&quot;Posizione laterale di sicurezza&quot;,&quot;Supino&quot;,&quot;Semiseduto&quot;],a:2},
+{t:&quot;Varie — Presidi &amp; Posizioni&quot;,q:&quot;Il modo migliore per tranquillizzare un paziente è:&quot;,o:[&quot;Ignorare le sue domande&quot;,&quot;Invitarlo a stare tranquillo e spiegando ciò che stiamo facendo&quot;,&quot;Dirgli che è in buone mani&quot;],a:1},
+{t:&quot;Varie — Presidi &amp; Posizioni&quot;,q:&quot;Per instaurare una buona relazione con il paziente è necessario:&quot;,o:[&quot;Mostrare competenza e professionalità&quot;,&quot;Rispondere correttamente alle domande&quot;,&quot;Parlare con calma&quot;,&quot;Tutte le precedenti&quot;],a:3},
+{t:&quot;Varie — Presidi &amp; Posizioni&quot;,q:&quot;Perché i finestrini e il portellone dell'ambulanza devono essere chiusi in fase di atterraggio e decollo dell'elicottero?&quot;,o:[&quot;Perché il rumore potrebbe spaventare il paziente&quot;,&quot;Perché il flusso dell'aria potrebbe causare danni al veicolo e perdita di materiale&quot;,&quot;Perché così gli adesivi applicati sulle finestre sono più visibili&quot;],a:1},
+{t:&quot;Varie — Presidi &amp; Posizioni&quot;,q:&quot;In quale posizione deve essere preferibilmente messa una persona che appare pallida in viso?&quot;,o:[&quot;Semi-seduta&quot;,&quot;Supina&quot;,&quot;PLS&quot;,&quot;Anti-shock&quot;],a:3},
+{t:&quot;Varie — Presidi &amp; Posizioni&quot;,q:&quot;Quale presidio usi per trasportare un paziente asmatico con difficoltà respiratoria dal 3° piano dell'edificio all'ambulanza?&quot;,o:[&quot;Materasso a depressione&quot;,&quot;Sedia portantina&quot;,&quot;Barella autocaricante&quot;,&quot;Telo da trasporto&quot;],a:1},
+{t:&quot;Varie — Presidi &amp; Posizioni&quot;,q:&quot;Una buona comunicazione con il paziente si ottiene:&quot;,o:[&quot;Usando termini difficili al fine di ottenere la fiducia mostrando competenza&quot;,&quot;Con domande brevi per guadagnare tempo&quot;,&quot;Mantenendo il contatto visivo, il tono della voce rilassato, la giusta distanza relazionale&quot;],a:2},
+{t:&quot;Varie — Presidi &amp; Posizioni&quot;,q:&quot;Chi deve ripristinare i materiali usati nel vano sanitario?&quot;,o:[&quot;Il responsabile dei mezzi&quot;,&quot;L'equipaggio che ha utilizzato il materiale&quot;,&quot;L'equipaggio che entra in servizio mentre effettua la check-list&quot;],a:1},
+{t:&quot;Varie — Presidi &amp; Posizioni&quot;,q:&quot;Il telo portaferiti può essere utilizzato per trasportare un paziente giù dalle scale?&quot;,o:[&quot;Sì quando non si ha di fronte un soggetto vittima di un trauma&quot;,&quot;Sì, si può sempre usare in qualsiasi circostanza&quot;,&quot;No, non si può scendere le scale con il telo&quot;],a:0},
+{t:&quot;Varie — Presidi &amp; Posizioni&quot;,q:&quot;La sedia portantina:&quot;,o:[&quot;Si utilizza solo per pazienti con problemi cardiaci&quot;,&quot;Si può utilizzare per tutte le tipologie di pazienti a patto che siano ben legati&quot;,&quot;Si utilizza per pazienti non traumatizzati e che riescono a stare seduti&quot;],a:2},
+{t:&quot;Varie — Presidi &amp; Posizioni&quot;,q:&quot;Quando non si può utilizzare il telo portaferiti:&quot;,o:[&quot;Quando i soccorritori sono solo due&quot;,&quot;Se il paziente pesa più di 80 Kg&quot;,&quot;Se si sospetta un trauma&quot;,&quot;Nel caso in cui il paziente sia una persona anziana&quot;],a:2},
+{t:&quot;Varie — Presidi &amp; Posizioni&quot;,q:&quot;Quale tra le seguenti indicazioni sulla barella autocaricante è SBAGLIATA:&quot;,o:[&quot;Deve essere sempre utilizzata in coppia quando il paziente è a bordo&quot;,&quot;Può essere utilizzata per salire le scale&quot;,&quot;Può essere messa in posizione anti-shock&quot;],a:1},
+{t:&quot;Varie — Presidi &amp; Posizioni&quot;,q:&quot;Quale tra i presidi elencati è corretto per erogare un flusso di ossigeno pari a 2 L/min:&quot;,o:[&quot;Maschera con reservoir&quot;,&quot;Occhialini&quot;,&quot;Maschera di Venturi&quot;,&quot;Ambu&quot;],a:1},
+// ─── VARIE MISTO — 29 domande ────────────────────
+{t:&quot;Varie Misto — Codici &amp; Patologie&quot;,q:&quot;Il codice di patologia '5' indica:&quot;,o:[&quot;Incidente stradale&quot;,&quot;Difficoltà respiratoria&quot;,&quot;Intossicazione da sostanze alcoliche&quot;,&quot;Problemi psichiatrici&quot;],a:3},
+{t:&quot;Varie Misto — Codici &amp; Patologie&quot;,q:&quot;Quale codice dareste a questa situazione: uomo di 59 anni, al ritorno dal mercato si ferma dal macellaio con dolore al torace e braccio sinistro, pallido, sudato freddo, dice di sentirsi morire.&quot;,o:[&quot;G02S&quot;,&quot;V08Z&quot;,&quot;G02P&quot;,&quot;B09Y&quot;],a:2},
+{t:&quot;Varie Misto — Codici &amp; Patologie&quot;,q:&quot;Il mezzo di soccorso è tenuto a comunicare in sequenza alla C.O. 118 i seguenti dati:&quot;,o:[&quot;Partenza, arrivo sul posto, partenza per ospedale, arrivo in ospedale, operatività&quot;,&quot;Partenza, condizioni del paziente, numero di servizio, richiesta forze dell'ordine&quot;,&quot;Partenza, richiesta ospedale di competenza, attesa Guardia Medica, operatività&quot;,&quot;Partenza, arrivo in ospedale, descrizione dell'accaduto, operatività&quot;],a:0},
+{t:&quot;Varie Misto — Codici &amp; Patologie&quot;,q:&quot;In caso di ustione di primo grado localizzata su un'area di estensione pari al 10%, come mi comporto?&quot;,o:[&quot;Coprire la parte con telo sterile e bagnare abbondantemente&quot;,&quot;Evitare di rompere le flittene, coprire con telo sterile, bagnare abbondantemente&quot;,&quot;Coprire la parte con telo sterile e bagnare abbondantemente, posizione antishock e trasporto urgente&quot;,&quot;Prevengo lo stato di shock, somministro liquidi e trasporto urgentemente&quot;],a:0,w:true},
+{t:&quot;Varie Misto — Codici &amp; Patologie&quot;,q:&quot;Qual è la posizione consigliata per un soggetto che mostri segni di un trauma toracico con ferita 'soffiante'?&quot;,o:[&quot;Gambe sollevate in posizione anti-shock&quot;,&quot;Semiseduto leggermente ruotato verso la parte lesa&quot;,&quot;In posizione supina&quot;,&quot;Su un fianco con il capo leggermente elevato&quot;],a:1},
+{t:&quot;Varie Misto — Codici &amp; Patologie&quot;,q:&quot;Pallore, sudorazione abbondante, pressione arteriosa massima inferiore a 90 e tachicardia sono sintomi di:&quot;,o:[&quot;Arresto cardiaco&quot;,&quot;Emorragia interna&quot;,&quot;Trauma alla colonna vertebrale&quot;],a:1},
+{t:&quot;Varie Misto — Codici &amp; Patologie&quot;,q:&quot;In caso di dolore toracico, come ti comporti?&quot;,o:[&quot;Monitorazione parametri vitali, tranquillizzare la persona, posizione semiseduta, somministrazione ossigeno ad alti flussi&quot;,&quot;Posiziono il paziente in posizione anti-shock e chiamo il 118&quot;,&quot;Somministro nitroglicerina e aspetto la remissione spontanea&quot;],a:0,w:true},
+{t:&quot;Varie Misto — Codici &amp; Patologie&quot;,q:&quot;Il codice di criticità GIALLO indica:&quot;,o:[&quot;Situazione di intervento differibile e/o programmabile&quot;,&quot;Funzioni vitali non direttamente compromesse ma in stato di evoluzione&quot;,&quot;Una o più funzioni vitali assenti o direttamente compromesse&quot;,&quot;Lesioni che non compromettono le funzioni vitali&quot;],a:1},
+{t:&quot;Varie Misto — Codici &amp; Patologie&quot;,q:&quot;Quando non è possibile identificare il problema sanitario viene assegnato come codice di patologia:&quot;,o:[&quot;19 — Altra patologia&quot;,&quot;20 — Patologia non identificata&quot;,&quot;00 — Codice generico&quot;,&quot;05 — Psichiatrica&quot;],a:1,w:true},
+{t:&quot;Varie Misto — Codici &amp; Patologie&quot;,q:&quot;La riduzione di una lussazione deve essere eseguita:&quot;,o:[&quot;Sempre da due soccorritori&quot;,&quot;Mai&quot;,&quot;Solo in caso di lussazione all'anca&quot;],a:1},
+{t:&quot;Varie Misto — Codici &amp; Patologie&quot;,q:&quot;Le fasi di valutazione di una persona traumatizzata sono:&quot;,o:[&quot;Solo valutazione ABCDE&quot;,&quot;Valutazione primaria (ABCDE) + valutazione secondaria (dalla testa ai piedi)&quot;,&quot;Solo valutazione secondaria dalla testa ai piedi&quot;,&quot;Valutazione primaria, senza necessità di valutazione secondaria in assenza di trauma cranico&quot;],a:1,w:true},
+{t:&quot;Varie Misto — Codici &amp; Patologie&quot;,q:&quot;Qual è spesso il primo segno di trauma cranico?&quot;,o:[&quot;Fratture agli arti&quot;,&quot;Un alterato livello di coscienza&quot;,&quot;Dolore al torace&quot;,&quot;Ematomi periorbitali&quot;],a:1},
+{t:&quot;Varie Misto — Codici &amp; Patologie&quot;,q:&quot;Quali sono i valori entro i quali possiamo considerare che un soggetto adulto NON abbia alterazioni delle funzioni vitali?&quot;,o:[&quot;FR 8-12 atti/min, FC 40-60 puls/min, PA 80/60 mmHg, SpO2 ≥ 70%&quot;,&quot;FR 12-16 atti/min, FC 60-90 puls/min, PA 120/80 mmHg, SpO2 ≥ 90%&quot;,&quot;FR 20-30 atti/min, FC 100-120 puls/min, PA 160/100 mmHg, SpO2 ≥ 95%&quot;,&quot;FR 16-20 atti/min, FC 80-100 puls/min, PA 140/90 mmHg, SpO2 ≥ 85%&quot;],a:1,w:true},
+{t:&quot;Varie Misto — Codici &amp; Patologie&quot;,q:&quot;Dopo avere immobilizzato una frattura dell'avambraccio dovete:&quot;,o:[&quot;Controllare la presenza del polso radiale&quot;,&quot;Somministrare ossigeno ad alto flusso&quot;,&quot;Coprire con la metallina&quot;],a:0},
+{t:&quot;Varie Misto — Codici &amp; Patologie&quot;,q:&quot;Quale dei seguenti segni e sintomi sono caratteristici dell'ingestione di alimenti avariati?&quot;,o:[&quot;Dolore alle mani ed ai piedi&quot;,&quot;Nausea&quot;,&quot;Pallore agli arti&quot;,&quot;Anisocoria&quot;],a:1},
+{t:&quot;Varie Misto — Codici &amp; Patologie&quot;,q:&quot;Come affronto una situazione in cui un soggetto ha ingerito sostanze caustiche?&quot;,o:[&quot;Lo trasporto monitorando i segni vitali e recuperando il contenitore della sostanza&quot;,&quot;Butto subito via il contenitore per evitare che ne beva ancora e trasporto il soggetto in ospedale non provocando il vomito&quot;,&quot;Provoco subito il vomito per evitare che la sostanza ingerita ustioni le pareti dello stomaco&quot;],a:0},
+{t:&quot;Varie Misto — Codici &amp; Patologie&quot;,q:&quot;In caso di abuso di farmaci antidepressivi a scopo autolesivo:&quot;,o:[&quot;Verifichi le informazioni sull'accaduto e prepari subito il paziente al trasporto, è una situazione evolutiva&quot;,&quot;Esegui ABCDE, con particolare attenzione all'anamnesi prima di comunicare con la C.O.118&quot;,&quot;Chiedi alla C.O. 118 quale è l'ospedale di competenza psichiatrica in quanto devi eseguire un TSO&quot;],a:1,w:true},
+{t:&quot;Varie Misto — Codici &amp; Patologie&quot;,q:&quot;In caso di avvelenamento da funghi cotti:&quot;,o:[&quot;Dai da bere dell'acqua calda&quot;,&quot;Fai vomitare il paziente e gli consigli di andare a letto&quot;,&quot;Porti il paziente in Ospedale assieme a ciò che è rimasto dei funghi ed eventualmente del vomito precedente&quot;],a:2},
+{t:&quot;Varie Misto — Codici &amp; Patologie&quot;,q:&quot;Se trovi una persona non cosciente di cui sospetti intossicazione da oppiacei e con una siringa nel braccio:&quot;,o:[&quot;Lasci la siringa nella posizione in cui si trova e la immobilizzi&quot;,&quot;Sfili la siringa e ti prepari a tamponare l'emorragia venosa&quot;,&quot;Sfili la siringa e fai scorrere acqua corrente per eliminare la sostanza&quot;,&quot;Non fai nulla fino all'arrivo delle forze dell'ordine&quot;],a:1},
+{t:&quot;Varie Misto — Codici &amp; Patologie&quot;,q:&quot;In quale dei seguenti casi posso sospettare un infarto del miocardio? (valutazione sul campo)&quot;,o:[&quot;Viso pallido, respirazione lenta, battito cardiaco rallentato, estremità intorpidite con formicolio e dolore&quot;,&quot;Viso cianotico, respiro affannato, battito cardiaco rallentato, aumento della temperatura corporea&quot;,&quot;Viso pallido terreo, respiro affannato, battito cardiaco piccolo e frequente, dolore retrosternali&quot;,&quot;Viso pallido, respiro regolare, battito cardiaco regolare, sudorazione&quot;],a:2},
+// ─── PARTO &amp; NEONATO — 10 domande ────────────────
+{t:&quot;Parto &amp; Neonato&quot;,q:&quot;Il periodo espulsivo del parto naturale corrisponde a:&quot;,o:[&quot;Momento caratterizzato dall'espulsione della placenta&quot;,&quot;Contrazioni più forti e molto dolorose, progressiva dilatazione del collo uterino&quot;,&quot;Contrazioni molto intense con desiderio di spingere da parte della donna, disimpegno ed espulsione del feto&quot;],a:2},
+{t:&quot;Parto &amp; Neonato&quot;,q:&quot;Se nella fase del parto si evidenzia un'altra parte del corpo che non sia la testa del neonato come mi comporto:&quot;,o:[&quot;Trasporto immediatamente la donna in posizione laterale di sicurezza sul lato sinistro e somministro ossigeno ad alti flussi&quot;,&quot;Trasporto immediatamente la donna in posizione semiseduta e somministro ossigeno ad alti flussi&quot;,&quot;Trasporto immediatamente la donna in posizione Trendelenburg e somministro ossigeno ad alti flussi&quot;],a:2},
+{t:&quot;Parto &amp; Neonato&quot;,q:&quot;Se nella fase del parto si evidenzia la testa è necessario:&quot;,o:[&quot;Trasportare immediatamente la donna in posizione semiseduta e somministrare ossigeno ad alti flussi&quot;,&quot;Prepararsi ad aiutarla a partorire sul posto ed eseguire triage per rianimazione neonatale (parto gemellare? data prevista del parto, colore liquido amniotico)&quot;,&quot;Trasportare immediatamente la donna in posizione Trendelenburg e somministrare ossigeno ad alti flussi&quot;],a:1},
+{t:&quot;Parto &amp; Neonato&quot;,q:&quot;Il cordone ombelicale del neonato va tagliato:&quot;,o:[&quot;Se il neonato non necessita di rianimazione, può anche non essere tagliato fino all'arrivo in ospedale&quot;,&quot;Sì sempre per evitare il rischio di reflusso del sangue&quot;,&quot;No, se non si dispone di forbici sterili&quot;],a:0},
+{t:&quot;Parto &amp; Neonato&quot;,q:&quot;Come posizionare il neonato subito dopo la nascita:&quot;,o:[&quot;Lo avvolgo in teli caldi e puliti dopo aver tagliato/chiuso il cordone ombelicale&quot;,&quot;Lo mantengo allo stesso livello della madre sino a quando non viene tagliato/chiuso il cordone ombelicale&quot;,&quot;Lo appoggio al petto della mamma pelle-pelle senza avvolgerlo in teli caldi e puliti prima di tagliare/chiudere il cordone ombelicale&quot;],a:1},
+{t:&quot;Parto &amp; Neonato&quot;,q:&quot;Qual è il periodo fisiologico della gravidanza:&quot;,o:[&quot;Tra la 30ma e la 36ma settimana&quot;,&quot;Tra la 36ma e la 42ma settimana&quot;,&quot;Tra la 38ma e la 44ma settimana&quot;],a:1},
+{t:&quot;Parto &amp; Neonato&quot;,q:&quot;Dovendo praticare la rianimazione neonatale è necessario:&quot;,o:[&quot;Chiudere o tagliare il cordone ombelicale a 4-5 cm dall'addome del neonato e vicino alla vagina materna, allertare CO118 prima di eseguire la RCP&quot;,&quot;I Volontari non praticano la RCP neonatale quindi è necessario il trasporto urgente in ospedale&quot;,&quot;Allertare la CO118 ed eseguire la RCP senza chiudere o tagliare il cordone ombelicale&quot;],a:0},
+{t:&quot;Parto &amp; Neonato&quot;,q:&quot;Quali sono i segni e sintomi suggestivi di una minaccia d'aborto:&quot;,o:[&quot;Ipertensione arteriosa e proteinuria&quot;,&quot;Contrattura della parete addominale e ipotensione&quot;,&quot;Dolore localizzato alla parte inferiore dell'addome e schiena ed emorragia vaginale&quot;],a:2},
+{t:&quot;Parto &amp; Neonato&quot;,q:&quot;Cos'è la sindrome della vena cava inferiore:&quot;,o:[&quot;Dolore generalizzato che la donna gravida riferisce quando si trova in posizione prona&quot;,&quot;Dolore addominale in donna gravida in posizione semiseduta&quot;,&quot;Vertigini e/o svenimento provocate dalla compressione della vena cava inferiore quando la donna gravida dorme in posizione supina&quot;],a:2},
+{t:&quot;Parto &amp; Neonato&quot;,q:&quot;Le convulsioni febbrili in un bambino sono caratterizzate da:&quot;,o:[&quot;Innalzamento della temperatura corporea e vomito a getto&quot;,&quot;Sguardo fisso, contratture muscolari, apnea con cianosi della cute, febbre > 38.5°C&quot;,&quot;Stato di shock&quot;],a:1},
+// ─── COMUNICAZIONE RADIO — 12 domande ────────────
+{t:&quot;Comunicazione Radio&quot;,q:&quot;A quali normative è soggetto l'uso degli apparati ricetrasmittenti in uso in Croce Rossa?&quot;,o:[&quot;Leggi e regolamenti della Repubblica Italiana&quot;,&quot;Leggi e regolamenti della Repubblica Italiana, direttive dell'Unione Europea e regolamenti di Croce Rossa Italiana&quot;,&quot;Esclusivamente il capitolato tecnico di Croce Rossa Italiana&quot;,&quot;L'uso degli apparati ricetrasmittenti è libero e non soggetto ad alcuna normativa&quot;],a:1},
+{t:&quot;Comunicazione Radio&quot;,q:&quot;Gli apparati portatili hanno due livelli di potenza selezionabile. Quando è preferibile utilizzare il livello di potenza basso?&quot;,o:[&quot;Sempre&quot;,&quot;Quando si effettua prevalentemente attività di ascolto&quot;,&quot;Quando si effettua molta attività in trasmissione e si è in una zona con buona copertura radio rispetto al corrispondente&quot;,&quot;Quando si effettua molta attività in trasmissione a prescindere dalla copertura&quot;],a:2},
+{t:&quot;Comunicazione Radio&quot;,q:&quot;Quando si utilizza un veicolo per un servizio, indicare tutte le operazioni che è necessario fare:&quot;,o:[&quot;Accendere la radio&quot;,&quot;Comunicare via radio&quot;,&quot;Accendere la radio, utilizzarla per le comunicazioni e spegnerla a fine servizio&quot;,&quot;Verificare che la radio sia accesa e utilizzarla per le comunicazioni, lasciandola accesa a fine servizio&quot;],a:2},
+{t:&quot;Comunicazione Radio&quot;,q:&quot;Come funziona in linea di massima un ponte ripetitore?&quot;,o:[&quot;È un apparato radio che ascolta una comunicazione e, quando è terminata, la ritrasmette sulla stessa frequenza&quot;,&quot;È un apparato radio che, mentre ascolta una comunicazione, la ritrasmette immediatamente sulla stessa frequenza&quot;,&quot;È un apparato che, mentre ascolta una comunicazione, la ritrasmette immediatamente su una frequenza opportunamente differente&quot;],a:2},
+{t:&quot;Comunicazione Radio&quot;,q:&quot;Come si comportano due radio in portata ottica tra loro, sintonizzate su un canale in modalità ripetitore quando la copertura o il corretto funzionamento di quest'ultimo viene a mancare (e non ci sono altri ponti attivi)?&quot;,o:[&quot;Continuano a comunicare normalmente perché sono in portata ottica tra loro&quot;,&quot;Si può verificare un degrado di prestazioni ma comunque il collegamento rimane possibile&quot;,&quot;Non è possibile comunicare a meno di concordare il passaggio a un canale in diretta&quot;],a:2},
+{t:&quot;Comunicazione Radio&quot;,q:&quot;Quali tipi di canali sono programmati nelle radio CRI?&quot;,o:[&quot;Canali per comunicazione diretta&quot;,&quot;Canali per comunicazione tramite ripetitore&quot;,&quot;Canali per comunicazione diretta e canali per comunicazione tramite ripetitore&quot;,&quot;Nessuno dei precedenti&quot;],a:2},
+{t:&quot;Comunicazione Radio&quot;,q:&quot;Cosa significa la parola 'interrogativo' durante una comunicazione?&quot;,o:[&quot;Serve a evidenziare che è stata fatta una domanda&quot;,&quot;Niente di particolare&quot;,&quot;È scorretto utilizzarla perché esiste il punto di domanda&quot;],a:0},
+{t:&quot;Comunicazione Radio&quot;,q:&quot;Dovendo avvisare il centralino della mia sede (TO 0110) di un inconveniente durante un trasporto, essendo l'ambulanza TO 1112, come inizierò la comunicazione radio?&quot;,o:[&quot;Torino zero-uno-uno-zero, cambio da Torino uno-uno-uno-due&quot;,&quot;Torino zero-uno-uno-zero, da Torino uno-uno-dodici&quot;,&quot;Torino zero-uno-dieci da Torino undici-dodici, cambio&quot;],a:2},
+{t:&quot;Comunicazione Radio&quot;,q:&quot;Per iniziare una comunicazione radio:&quot;,o:[&quot;Si pronuncia lo spelling della sede di provenienza e dopo quello del chiamante&quot;,&quot;Si pronuncia prima la sigla del terminale chiamato e dopo il proprio identificativo&quot;,&quot;Si pronuncia prima il proprio identificativo e dopo la sigla del terminale chiamato&quot;],a:1},
+{t:&quot;Comunicazione Radio&quot;,q:&quot;Gli identificativi radio della Croce Rossa sono:&quot;,o:[&quot;A cinque cifre&quot;,&quot;Identici a quelli del 118&quot;,&quot;A sei cifre&quot;],a:2},
+{t:&quot;Comunicazione Radio&quot;,q:&quot;Nell'alfabeto fonetico ICAO lo spelling delle lettere A-D-I-M-P-T-V è:&quot;,o:[&quot;Alfa, delta, india, mike, papa, tango, victor&quot;,&quot;Alfa, dover, indù, mike, para, tigon, victor&quot;,&quot;Algor, delta, indor, minnie, patos, thema, victor&quot;],a:0},
+{t:&quot;Comunicazione Radio&quot;,q:&quot;Le comunicazioni radio devono essere:&quot;,o:[&quot;Fatte in modo da tenere il canale occupato fin che non si è terminato il servizio&quot;,&quot;Chiare e precise anche se personali per una buona educazione&quot;,&quot;Pertinenti, chiare, esaurienti e brevi&quot;],a:2}
+];
+
+// ════════════════════════════════════════════════
+// STATO GLOBALE
+// ════════════════════════════════════════════════
+let sh=[], cur=0, answers=[], selectedPending=null;
+let quizMode='exam', timerEnabled=true;
+let timerStart=null, timerInterval=null, finalElapsed=0;
+
+// ════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════
+function init(){
+  document.getElementById('tot-n').textContent=Q.length;
+  document.getElementById('top-n').textContent=[...new Set(Q.map(q=>q.t))].length;
+  const tops=[...new Set(Q.map(q=>q.t))];
+  const tg=document.getElementById('tgrid');
+  tops.forEach(t=>{
+    const d=document.createElement('div');
+    d.className='tchip';
+    d.innerHTML=`<span class=&quot;dot&quot;></span>${t}`;
+    tg.appendChild(d);
+  });
+}
+
+// ════════════════════════════════════════════════
+// MODE / OPTION SELECTION
+// ════════════════════════════════════════════════
+function selMode(m){
+  quizMode=m;
+  document.getElementById('mcard-exam').classList.toggle('sel',m==='exam');
+  document.getElementById('mcard-full').classList.toggle('sel',m==='full');
+  document.getElementById('timer-desc').textContent=m==='exam'
+    ?'Conto alla rovescia: 30 min (modalità esame)'
+    :'Cronometro crescente (tempo libero)';
+}
+
+function toggleTimer(){
+  timerEnabled=!timerEnabled;
+  document.getElementById('timer-sw').classList.toggle('on',timerEnabled);
+}
+
+// ════════════════════════════════════════════════
+// SELECT 30 QUESTIONS — proporzionale per argomento
+// ════════════════════════════════════════════════
+function select30(){
+  const tops=[...new Set(Q.map(q=>q.t))];
+  const total=Q.length, target=30;
+  const groups={};
+  tops.forEach(t=>groups[t]=Q.filter(q=>q.t===t));
+  // Largest remainder method
+  const shares={};
+  tops.forEach(t=>{const x=groups[t].length/total*target;shares[t]={n:Math.floor(x),r:x-Math.floor(x)};});
+  let rem=target-tops.reduce((s,t)=>s+shares[t].n,0);
+  [...tops].sort((a,b)=>shares[b].r-shares[a].r).slice(0,rem).forEach(t=>shares[t].n++);
+  const sel=[];
+  tops.forEach(t=>{
+    const shuffled=shuf([...groups[t]]);
+    sel.push(...shuffled.slice(0,shares[t].n));
+  });
+  return shuf(sel);
+}
+
+// ════════════════════════════════════════════════
+// START QUIZ
+// ════════════════════════════════════════════════
+function startQuiz(){
+  sh=quizMode==='exam'?select30():shuf([...Q]);
+  // Reset option shuffle per question
+  sh.forEach(q=>delete q._oi);
+  answers=new Array(sh.length).fill(null);
+  selectedPending=null;
+  cur=0;
+  finalElapsed=0;
+
+  // Build navigation strip
+  const ns=document.getElementById('nav-strip');
+  ns.innerHTML='';
+  sh.forEach((_,i)=>{
+    const b=document.createElement('button');
+    b.className='nbox';b.textContent=i+1;b.id=`nb${i}`;
+    b.onclick=()=>goTo(i);
+    ns.appendChild(b);
+  });
+
+  document.getElementById('nav-strip-wrap').style.display='block';
+  document.getElementById('pb-wrap').style.display='flex';
+
+  // Timer
+  const tb=document.getElementById('timer-box');
+  clearInterval(timerInterval);
+  timerStart=Date.now();
+  if(timerEnabled){
+    tb.style.display='block';
+    tb.className='';
+    timerInterval=setInterval(tickTimer,500);
+  } else {
+    tb.style.display='none';
+  }
+
+  show('quiz-screen');
+  render();
+}
+
+// ════════════════════════════════════════════════
+// TIMER TICK
+// ════════════════════════════════════════════════
+function tickTimer(){
+  const elapsed=Date.now()-timerStart;
+  const tb=document.getElementById('timer-box');
+  if(quizMode==='exam'){
+    const lim=30*60*1000, rem=lim-elapsed;
+    if(rem<=0){
+      clearInterval(timerInterval);
+      tb.textContent='⏱ 00:00';tb.className='danger';
+      finalElapsed=elapsed;
+      endQuiz();return;
+    }
+    const s=Math.ceil(rem/1000);
+    tb.textContent=`⏱ ${fmt(Math.floor(s/60))}:${fmt(s%60)}`;
+    tb.className=rem<5*60000?'danger':rem<10*60000?'warn':'';
+  } else {
+    const s=Math.floor(elapsed/1000);
+    tb.textContent=`⏱ ${fmt(Math.floor(s/60))}:${fmt(s%60)}`;
+    tb.className='';
+  }
+}
+function fmt(n){return String(n).padStart(2,'0');}
+
+// ════════════════════════════════════════════════
+// RENDER QUESTION
+// ════════════════════════════════════════════════
+function render(){
+  const q=sh[cur], tot=sh.length;
+  selectedPending=null;
+
+  // Progress
+  const answered=answers.filter(a=>a!==null).length;
+  document.getElementById('pb-fill').style.width=(answered/tot*100)+'%';
+  document.getElementById('pb-txt').textContent=`${answered}/${tot}`;
+  document.getElementById('sc-live').textContent=`✓ ${answers.filter(a=>a&amp;&amp;a.ok).length}`;
+
+  // Topic &amp; number
+  const tl=document.getElementById('tlbl');
+  tl.textContent=q.t;
+  document.getElementById('qnum').textContent=`Domanda ${cur+1} di ${tot}`;
+  document.getElementById('qtxt').textContent=q.q;
+
+  // Stable per-question option order
+  if(!q._oi) q._oi=shuf(q.o.map((_,i)=>i));
+  const oi=q._oi;
+
+  const ans=answers[cur];
+  const ul=document.getElementById('opts');
+  ul.innerHTML='';
+  oi.forEach(origIdx=>{
+    const li=document.createElement('li');
+    const b=document.createElement('button');
+    b.className='ob';b.textContent=q.o[origIdx];b.dataset.oi=origIdx;
+    if(ans!==null){
+      b.disabled=true;
+      if(origIdx===q.a) b.classList.add('ok');
+      else if(origIdx===ans.sel) b.classList.add('ko');
+    } else {
+      b.onclick=()=>selectOpt(origIdx,b);
+    }
+    li.appendChild(b);ul.appendChild(li);
+  });
+
+  // Confirm button
+  const cb=document.getElementById('conf-btn');
+  cb.className=ans===null?'':'';
+  cb.style.display='none';
+
+  // Feedback
+  const fb=document.getElementById('fb');
+  if(ans!==null){
+    fb.className=ans.ok?'fb ok':'fb ko';
+    fb.innerHTML=ans.ok?'<strong>✓ Esatto!</strong>':`<strong>✗ Sbagliato.</strong> Risposta corretta: <em>${q.o[q.a]}</em>`;
+  } else {
+    fb.className='fb';
+  }
+
+  // Nav buttons
+  document.getElementById('prev-btn').disabled=cur===0;
+  const nb=document.getElementById('next-btn');
+  if(cur===tot-1){
+    nb.textContent='🏁 Vedi risultati';
+    nb.classList.add('prim');
+    nb.disabled=false;
+  } else {
+    nb.textContent='Successiva →';
+    nb.classList.add('prim');
+    nb.disabled=false;
+  }
+
+  // Unanswered note (show only on last question)
+  const un=answers.filter(a=>a===null).length;
+  const unNote=document.getElementById('unanswered-note');
+  if(cur===tot-1 &amp;&amp; un>0){
+    unNote.style.display='block';
+    unNote.textContent=`⚠ ${un} domanda${un!==1?'e':''} senza risposta — tornare indietro per rispondere`;
+  } else {
+    unNote.style.display='none';
+  }
+
+  updateNavStrip();
+  const nb2=document.getElementById(`nb${cur}`);
+  if(nb2) nb2.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+}
+
+// ════════════════════════════════════════════════
+// OPTION SELECTION
+// ════════════════════════════════════════════════
+function selectOpt(origIdx,btn){
+  if(answers[cur]!==null) return;
+  document.querySelectorAll('.ob').forEach(b=>b.classList.remove('pending'));
+  if(selectedPending===origIdx){
+    selectedPending=null;
+    document.getElementById('conf-btn').style.display='none';
+  } else {
+    selectedPending=origIdx;
+    btn.classList.add('pending');
+    document.getElementById('conf-btn').style.display='inline-block';
+  }
+}
+
+// ════════════════════════════════════════════════
+// CONFIRM ANSWER
+// ════════════════════════════════════════════════
+function confirmAnswer(){
+  if(selectedPending===null||answers[cur]!==null) return;
+  const q=sh[cur];
+  const ok=selectedPending===q.a;
+  answers[cur]={sel:selectedPending,ok};
+
+  // Freeze options &amp; show result
+  document.querySelectorAll('.ob').forEach(b=>{
+    b.disabled=true;
+    const idx=parseInt(b.dataset.oi);
+    b.classList.remove('pending');
+    if(idx===q.a) b.classList.add('ok');
+    else if(idx===selectedPending&amp;&amp;!ok) b.classList.add('ko');
+  });
+  document.getElementById('conf-btn').style.display='none';
+
+  const fb=document.getElementById('fb');
+  fb.className=ok?'fb ok':'fb ko';
+  fb.innerHTML=ok?'<strong>✓ Esatto!</strong>':`<strong>✗ Sbagliato.</strong> Risposta corretta: <em>${q.o[q.a]}</em>`;
+
+  // Update progress
+  const answered=answers.filter(a=>a!==null).length,tot=sh.length;
+  document.getElementById('pb-fill').style.width=(answered/tot*100)+'%';
+  document.getElementById('pb-txt').textContent=`${answered}/${tot}`;
+  document.getElementById('sc-live').textContent=`✓ ${answers.filter(a=>a&amp;&amp;a.ok).length}`;
+
+  // Update unanswered note if last q
+  const un=answers.filter(a=>a===null).length;
+  const unNote=document.getElementById('unanswered-note');
+  if(cur===tot-1){
+    unNote.style.display=un>0?'block':'none';
+    if(un>0) unNote.textContent=`⚠ ${un} domanda${un!==1?'e':''} senza risposta — tornare indietro per rispondere`;
+  }
+
+  selectedPending=null;
+  updateNavStrip();
+}
+
+// ════════════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════════════
+function navigate(dir){
+  if(dir===1&amp;&amp;cur===sh.length-1){
+    const un=answers.filter(a=>a===null).length;
+    if(un>0){
+      if(!confirm(`Hai ancora ${un} domanda${un!==1?'e':''} senza risposta.\nVuoi comunque terminare il quiz?\nLe domande senza risposta saranno conteggiate come errate.`)) return;
+    }
+    endQuiz();return;
+  }
+  goTo(cur+dir);
+}
+
+function goTo(i){
+  if(i<0||i>=sh.length) return;
+  cur=i;
+  selectedPending=null;
+  render();
+}
+
+function updateNavStrip(){
+  sh.forEach((_,i)=>{
+    const nb=document.getElementById(`nb${i}`);
+    if(!nb) return;
+    let cls='nbox';
+    if(i===cur) cls+=' cur';
+    else if(answers[i]!==null) cls+=answers[i].ok?' ok':' ko';
+    nb.className=cls;
+  });
+}
+
+// ════════════════════════════════════════════════
+// END QUIZ &amp; RESULTS
+// ════════════════════════════════════════════════
+function endQuiz(){
+  finalElapsed=Date.now()-timerStart;
+  clearInterval(timerInterval);
+  showResults();
+}
+
+function showResults(){
+  show('results-screen');
+  document.getElementById('nav-strip-wrap').style.display='none';
+  document.getElementById('pb-wrap').style.display='none';
+  document.getElementById('timer-box').style.display='none';
+
+  const tot=sh.length;
+  const correct=answers.filter(a=>a&amp;&amp;a.ok).length;
+  const pct=correct/tot;
+
+  document.getElementById('fsc').textContent=`${correct}/${tot}`;
+
+  // Time
+  const secs=Math.floor(finalElapsed/1000);
+  const m=Math.floor(secs/60),s=secs%60;
+  const modeLabel=quizMode==='exam'?'(Modalità Esame)':'(Tutte le domande)';
+  document.getElementById('time-res').textContent=`⏱ Tempo impiegato: ${m} min ${fmt(s)} sec ${modeLabel}`;
+
+  // Grade
+  const gr=document.getElementById('fgr');
+  if(pct>=.85){gr.textContent='🎉 Ottimo! Pronto per l\'esame';gr.className='grade pass';}
+  else if(pct>=.70){gr.textContent='👍 Quasi — ripassare le domande sbagliate';gr.className='grade warn';}
+  else{gr.textContent='📚 Da studiare ancora';gr.className='grade fail';}
+
+  // Per-topic
+  const tm={};
+  sh.forEach((q,i)=>{
+    if(!tm[q.t]) tm[q.t]={tot:0,ok:0};
+    tm[q.t].tot++;
+    if(answers[i]&amp;&amp;answers[i].ok) tm[q.t].ok++;
+  });
+  const tr=document.getElementById('trr');tr.innerHTML='';
+  Object.entries(tm).forEach(([t,v])=>{
+    const p=v.tot>0?v.ok/v.tot:0,col=p>=.8?'#1a7a3e':p>=.6?'#e67e00':'#CE1126';
+    tr.innerHTML+=`<div class=&quot;trow&quot;><span class=&quot;tname&quot;>${t}</span><div class=&quot;bwrap&quot;><div class=&quot;bfill&quot; style=&quot;width:${Math.round(p*100)}%;background:${col}&quot;></div></div><span class=&quot;tsco&quot; style=&quot;color:${col}&quot;>${v.ok}/${v.tot}</span></div>`;
+  });
+
+  // Wrong answers
+  const wrong=sh.map((q,i)=>answers[i]&amp;&amp;!answers[i].ok?{q:q.q,a:q.o[q.a]}:null).filter(Boolean);
+  const errsec=document.getElementById('errsec');
+  if(wrong.length>0){
+    errsec.style.display='block';
+    document.getElementById('errl').innerHTML=wrong.map(w=>`<div class=&quot;eitem&quot;><div class=&quot;eq&quot;>${w.q}</div><div class=&quot;ea&quot;>${w.a}</div></div>`).join('');
+  } else {errsec.style.display='none';}
+
+  // Skipped (unanswered)
+  const skipped=sh.filter((_,i)=>answers[i]===null);
+  const skipsec=document.getElementById('skipsec');
+  if(skipped.length>0){
+    skipsec.style.display='block';
+    document.getElementById('skipl').innerHTML=skipped.map(q=>`<div class=&quot;skip-item&quot;>⚫ ${q.q}</div>`).join('');
+  } else {skipsec.style.display='none';}
+}
+
+function showStart(){
+  clearInterval(timerInterval);
+  document.getElementById('nav-strip-wrap').style.display='none';
+  document.getElementById('pb-wrap').style.display='none';
+  document.getElementById('timer-box').style.display='none';
+  show('start-screen');
+}
+
+// ════════════════════════════════════════════════
+// UTILITIES
+// ════════════════════════════════════════════════
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function shuf(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+init();
+</script>
+</body>
+</html>
+"></iframe>
+  </div>
+
+</div>
+
+<!-- ════════ FOOTER ════════ -->
+<div class="m-footer">
+  <div class="m-footer-text">
+    Creato da <strong>Marco Giuliano</strong> per il <strong>Comitato CRI di Ivrea</strong>
+    &nbsp;&middot;&nbsp;
+    Basato sullo <strong>Standard Formativo Volontario Soccorritore 118</strong> &ndash; 4&ordf; Edizione
+    &nbsp;&middot;&nbsp;
+    <span class="f-edu">&#9888; Solo a uso didattico &mdash; non sostituisce la formazione ufficiale</span>
+  </div>
+</div>
+</div>
+
+<script>
+const GLOBAL_AUTH_PIN='118CRI';
+const GLOBAL_AUTH_STORAGE_KEY='auth_ok';
+
+function setGlobalAuthState(isLogged){
+  if(isLogged) sessionStorage.setItem(GLOBAL_AUTH_STORAGE_KEY,'1');
+  else sessionStorage.removeItem(GLOBAL_AUTH_STORAGE_KEY);
+}
+
+function showSiteShell(isAuthed){
+  document.getElementById('global-auth').classList.toggle('active',!isAuthed);
+  document.getElementById('site-shell').classList.toggle('active',isAuthed);
+}
+
+function globalLogin(){
+  const input=document.getElementById('global-pin-input');
+  const err=document.getElementById('global-auth-error');
+  const pin=(input&&input.value?input.value:'').trim();
+  if(pin===GLOBAL_AUTH_PIN){
+    setGlobalAuthState(true);
+    if(err) err.classList.remove('show');
+    if(input) input.value='';
+    showSiteShell(true);
+  }else{
+    if(err) err.classList.add('show');
+  }
+}
+
+function initGlobalAuth(){
+  const input=document.getElementById('global-pin-input');
+  if(input){
+    input.addEventListener('keydown',function(e){
+      if(e.key==='Enter') globalLogin();
+    });
+  }
+  const authed=sessionStorage.getItem(GLOBAL_AUTH_STORAGE_KEY)==='1';
+  showSiteShell(authed);
+  if(!authed && input) input.focus();
+}
+
+function switchMain(tab, btn) {
+  document.querySelectorAll('.m-pane').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.m-tab').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('pane-' + tab).classList.add('active');
+  btn.classList.add('active');
+}
+function switchSub(sub, btn) {
+  document.querySelectorAll('.s-pane').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.s-tab').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('spane-' + sub).classList.add('active');
+  btn.classList.add('active');
+}
+
+initGlobalAuth();
+</script>
+</body>
+</html>
